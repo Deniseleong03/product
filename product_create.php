@@ -58,17 +58,21 @@
         $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
         $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
 
-        if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['promotional_price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) 
+        if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price'])|| empty($_POST['manufacture_date'])) 
             echo "<div class='alert alert-danger'>Please fill out all fields.</div>";
 
          // check if promotion price is less than original price
+         if(!empty($promotional_price)){
          if ($promotional_price >= $price) {
             echo "<div class='alert alert-danger'>Promotion price must be cheaper than original price.</div>";
         }
+    }
         // check if expiry date is later than manufacture date
-        else if ($expired_date <= $manufacture_date) {
+        if(!empty($promotional_price)){
+        if ($expired_date <= $manufacture_date) {
             echo "<div class='alert alert-danger'>Expiry date must be later than manufacture date.</div>";
-        } else {
+        }
+    }   else {
             // insert query
             $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created, promotional_price=:promotional_price, manufacture_date=:manufacture_date, expired_date=:expired_date";
             // prepare query for execution

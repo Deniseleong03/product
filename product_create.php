@@ -69,8 +69,8 @@
         }
     }
         // check if expiry date is later than manufacture date
-        if(!empty($promotional_price)){
-        if ($expired_date <= $manufacture_date) {
+        if(!empty($expired_date)){
+        if (strtotime($expired_date)<= strtotime($manufacture_date)) {
             echo "<div class='alert alert-danger'>Expiry date must be later than manufacture date.</div>";
         }
     }   else {

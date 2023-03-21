@@ -44,21 +44,6 @@
         
 
         <?php
-
-if ($_POST) {
-    // Check if any field is empty
-    if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['promotional_price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) {
-        echo "<div class='alert alert-danger'>Please fill out all fields.</div>";
-    } else {
-        // include database connection
-        include 'config/database.php';
-       
-       
-    }
-}
-
-
-
 if ($_POST) {
     // include database connection
     include 'config/database.php';
@@ -71,10 +56,15 @@ if ($_POST) {
         $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
         $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
 
+        if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['promotional_price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) 
+            echo "<div class='alert alert-danger'>Please fill out all fields.</div>";
+
         // check if promotion price is less than original price
+        if (!empty($promotional_price)) {
         if ($promotional_price >= $price) {
             echo "<div class='alert alert-danger'>Promotion price must be cheaper than original price.</div>";
         }
+    }
         // check if expiry date is later than manufacture date
         else if ($expired_date <= $manufacture_date) {
             echo "<div class='alert alert-danger'>Expiry date must be later than manufacture date.</div>";

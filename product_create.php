@@ -61,12 +61,10 @@
         if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || empty($_POST['promotional_price']) || empty($_POST['manufacture_date']) || empty($_POST['expired_date'])) 
             echo "<div class='alert alert-danger'>Please fill out all fields.</div>";
 
-        // check if promotion price is less than original price
-        if (!empty($promotional_price)) {
-        if ($promotional_price >= $price) {
+         // check if promotion price is less than original price
+         if ($promotional_price >= $price) {
             echo "<div class='alert alert-danger'>Promotion price must be cheaper than original price.</div>";
         }
-    }
         // check if expiry date is later than manufacture date
         else if ($expired_date <= $manufacture_date) {
             echo "<div class='alert alert-danger'>Expiry date must be later than manufacture date.</div>";
@@ -99,7 +97,6 @@
     }
 }
 ?>
-
 
  
 <!-- html form here where the product information will be entered -->

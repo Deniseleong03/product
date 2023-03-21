@@ -52,13 +52,8 @@ if ($_POST) {
     } else {
         // include database connection
         include 'config/database.php';
-        try {
-            // rest of your code
-        }
-        // show error
-        catch (PDOException $exception) {
-            die('ERROR: ' . $exception->getMessage());
-        }
+       
+       
     }
 }
 

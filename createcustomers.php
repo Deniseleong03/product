@@ -57,9 +57,14 @@
           $confpassword = htmlspecialchars(strip_tags($_POST['confpassword']));
           $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
           $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
+          if (isset($_POST['gender'])){
           $gender = htmlspecialchars(strip_tags($_POST['gender']));
+        }
           $dob = htmlspecialchars(strip_tags($_POST['dob']));
+          if (isset($_POST['accstatus'])){
           $accstatus = htmlspecialchars(strip_tags($_POST['accstatus']));
+          }
+
              
           // Validate the form data
           if (empty($username)) {
@@ -73,7 +78,7 @@
 
           if (empty($pass)) {
             $passErr = "Password is required";
-          } elseif (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/", $pass)) {
+          } elseif (strlen($password) >= 6 && preg_match('/[A-Za-z]/', $password) && preg_match('/\d/', $password)) {
             $passErr = "Password must contain at least 6 characters (at least 1 number + 1 alphabet)";
           }
 
@@ -149,44 +154,52 @@
       <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <table class='table table-hover table-responsive table-bordered'>
           <tr>
-            <td><label for="username" class="form-label">Username (at least 6 characters)</label></td>
-            <td><input type="text" class="form-control" id="username" name="username" minlength="6" required></td>
-            <?php if (isset($usernameErr)) { ?>
-              <span class="text-danger"><?php echo $usernameErr; ?>
+            <td> Username (at least 6 characters)</td>
+            <td><input type="text" class="form-control" name="username" minlength="6" required  
+            value="<?php echo isset($username) ? htmlspecialchars($username) : ''; ?>" />
+            <?php if (isset($usernameErr)) { ?><span class="text-danger">
+              <?php echo $usernameErr; ?>
             </span>
             <?php } ?>
+          </td>
           </tr>
 
           <tr>
             <td><label for="pass" class="form-label">Password (at least 6 characters, 1 letter, 1 number):</label></td>
-            <td><input type="password" name='pass' class="form-control" id="pass" pattern="(?=.*\d)(?=.*[a-zA-Z]).{6,}" required></td>
-            <?php if (isset($passErr)) { ?>
-              <span class="text-danger"><?php echo $passErr; ?></span>
+            <td><input type="password" name='pass' class="form-control" id="pass" pattern="(?=.*\d)(?=.*[a-zA-Z]).{6,}" required
+            value="<?php echo isset($pass) ? htmlspecialchars($pass) : ''; ?>" />
+            <?php if (isset($passErr)) { ?><span class="text-danger">
+                <?php echo $passErr; ?>
+              </span>
             <?php } ?>
+          </td>
           </tr>
 
           <tr>
             <td><label for="confpassword" class="form-label">Confirm Password</label></td>
-            <td><input type="password" name='confpassword' class="form-control" id="confpassword" required></td>
+            <td><input type="password" name='confpassword' class="form-control" id="confpassword" required>
             <?php if (isset($confpasswordErr)) { ?>
               <span class="text-danger"><?php echo $confpasswordErr; ?></span>
             <?php } ?>
+          </td>
           </tr>
 
           <tr>
             <td> <label for="firstname" class="form-label">First Name</label></td>
-            <td> <input type="text" class="form-control" id="firstname" name="firstname" required></td>
+            <td> <input type="text" class="form-control" id="firstname" name="firstname" required>
             <?php if (isset($firstnameErr)) { ?>
               <span class="text-danger"><?php echo $firstnameErr; ?></span>
             <?php } ?>
+          </td>
           </tr>
 
           <tr>
             <td><label for="lastname" class="form-label">Last Name</label></td>
-            <td> <input type="text" class="form-control" id="lastname" name="lastname" required></td>
+            <td> <input type="text" class="form-control" id="lastname" name="lastname" required>
             <?php if (isset($lastnameErr)) { ?>
               <span class="text-danger"><?php echo $lastnameErr; ?></span>
             <?php } ?>
+          </td>
           </tr>
 
           <tr>
@@ -195,18 +208,20 @@
               <input type="radio" name="gender" id="male" value="male"><label for="male">Male</label>
               <input type="radio" name="gender" id="female" value="female"><label for="female">Female</label>
               
-            </td>
+            <br>
             <?php if (isset($genderErr)) { ?>
               <span class="text-danger"><?php echo $genderErr; ?></span>
-            <?php } ?>
+            <?php } ?> 
+          </td>
           </tr>
 
           <tr>
             <td><label for="$dob" class="form-label">Date of Birth</label></td>
-            <td><input type="date" name="dob" id="dob"></td>
+            <td><input type="date" name="dob" id="dob"><br>
             <?php if (isset($dobErr)) { ?>
               <span class="text-danger"><?php echo $dobErr; ?></span>
             <?php } ?>
+          </td>
           </tr>
 
           <tr>
@@ -217,12 +232,13 @@
                 <input type="radio" name="accstatus" id="accstatus" value="accstatus"><label for="accstatus">Inactive</label>
                 
             
-            </td>
+           <br>
             <?php if (isset($accountstatusErr)) { ?>
               <span class="text-danger">
                 <?php echo $accountstatusErr; ?>
               </span>
-            <?php } ?>
+            <?php } ?> 
+          </td>
           </tr>
 
           <tr>

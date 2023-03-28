@@ -66,6 +66,9 @@
             $usernameErr = "Username is required";
           } elseif (strlen($username) < 6) {
             $usernameErr = "Username must be at least 6 characters long";
+          }elseif (!preg_match("/^[a-zA-Z]+$/", $username)) {
+            // If the username contains anything other than alphabets, display an error message
+            $usernameErr = "Username can only contain alphabets";
           }
 
           if (empty($pass)) {
@@ -149,7 +152,8 @@
             <td><label for="username" class="form-label">Username (at least 6 characters)</label></td>
             <td><input type="text" class="form-control" id="username" name="username" minlength="6" required></td>
             <?php if (isset($usernameErr)) { ?>
-              <div class="error"><?php echo $usernameErr; ?></div>
+              <span class="text-danger"><?php echo $usernameErr; ?>
+            </span>
             <?php } ?>
           </tr>
 

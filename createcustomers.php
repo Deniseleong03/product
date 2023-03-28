@@ -161,7 +161,7 @@
             <td><label for="pass" class="form-label">Password (at least 6 characters, 1 letter, 1 number):</label></td>
             <td><input type="password" name='pass' class="form-control" id="pass" pattern="(?=.*\d)(?=.*[a-zA-Z]).{6,}" required></td>
             <?php if (isset($passErr)) { ?>
-              <div class="error"><?php echo $passErr; ?></div>
+              <span class="text-danger"><?php echo $passErr; ?></span>
             <?php } ?>
           </tr>
 
@@ -169,7 +169,7 @@
             <td><label for="confpassword" class="form-label">Confirm Password</label></td>
             <td><input type="password" name='confpassword' class="form-control" id="confpassword" required></td>
             <?php if (isset($confpasswordErr)) { ?>
-              <div class="error"><?php echo $confpasswordErr; ?></div>
+              <span class="text-danger"><?php echo $confpasswordErr; ?></span>
             <?php } ?>
           </tr>
 
@@ -177,7 +177,7 @@
             <td> <label for="firstname" class="form-label">First Name</label></td>
             <td> <input type="text" class="form-control" id="firstname" name="firstname" required></td>
             <?php if (isset($firstnameErr)) { ?>
-              <div class="error"><?php echo $firstnameErr; ?></div>
+              <span class="text-danger"><?php echo $firstnameErr; ?></span>
             <?php } ?>
           </tr>
 
@@ -185,7 +185,7 @@
             <td><label for="lastname" class="form-label">Last Name</label></td>
             <td> <input type="text" class="form-control" id="lastname" name="lastname" required></td>
             <?php if (isset($lastnameErr)) { ?>
-              <div class="error"><?php echo $lastnameErr; ?></div>
+              <span class="text-danger"><?php echo $lastnameErr; ?></span>
             <?php } ?>
           </tr>
 
@@ -197,7 +197,7 @@
               
             </td>
             <?php if (isset($genderErr)) { ?>
-              <div class="error"><?php echo $genderErr; ?></div>
+              <span class="text-danger"><?php echo $genderErr; ?></span>
             <?php } ?>
           </tr>
 
@@ -205,7 +205,7 @@
             <td><label for="$dob" class="form-label">Date of Birth</label></td>
             <td><input type="date" name="dob" id="dob"></td>
             <?php if (isset($dobErr)) { ?>
-              <div class="error"><?php echo $dobErr; ?></div>
+              <span class="text-danger"><?php echo $dobErr; ?></span>
             <?php } ?>
           </tr>
 
@@ -219,7 +219,7 @@
             
             </td>
             <?php if (isset($accountstatusErr)) { ?>
-    <div class="error"><?php echo $accountstatusErr; ?></div>
+    <span class="text-danger"><?php echo $accountstatusErr; ?></span>
   <?php } ?>
           </tr>
 

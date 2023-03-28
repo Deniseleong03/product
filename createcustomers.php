@@ -219,8 +219,10 @@
             
             </td>
             <?php if (isset($accountstatusErr)) { ?>
-    <span class="text-danger"><?php echo $accountstatusErr; ?></span>
-  <?php } ?>
+              <span class="text-danger">
+                <?php echo $accountstatusErr; ?>
+              </span>
+            <?php } ?>
           </tr>
 
           <tr>

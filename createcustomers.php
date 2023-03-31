@@ -346,7 +346,7 @@
       </ul>
 
 
-  <body>
+
     <!-- container -->
     <div class="container">
 
@@ -377,6 +377,10 @@
           $accstatus = htmlspecialchars(strip_tags($_POST['accstatus']));
           }
 
+          $uppercase = preg_match('@[A-Z]@', $password);
+          $lowercase = preg_match('@[a-z]@', $password);
+          $number = preg_match('@[0-9]@', $password);
+
              
           // Validate the form data
           if (empty($username)) {
@@ -390,7 +394,7 @@
 
           if (empty($pass)) {
             $passErr = "Password is required";
-          } elseif (strlen($password) >= 6 && preg_match('/[A-Za-z]/', $password) && preg_match('/\d/', $password)) {
+          } elseif (!$uppercase || !$lowercase || !$number || strlen($password) < 6) {
             $passErr = "Password must contain at least 6 characters (at least 1 number + 1 alphabet)";
           }
 

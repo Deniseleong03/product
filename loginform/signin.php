@@ -13,6 +13,14 @@
 
 	</head>
 	<body>
+
+ <!-- container -->
+    <div class="container">
+	<!-- PHP read one record will be here -->
+        <?php
+	
+	?>
+
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -68,11 +76,17 @@
 		</div>
 	</section>
 
+
+
+
+
 	<script src="js/jquery.min.js"></script>
   <script src="js/popper.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/main.js"></script>
-
+  
+</div><!--the end of container-->
 	</body>
+
 </html>
 

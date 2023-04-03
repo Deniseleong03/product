@@ -19,59 +19,60 @@
 
 	<!-- PHP signin will be here -->
        <?php
-	   // Check if the form has been submitted
-	   if (isset($_POST['login'])) {
 
-		   // include database connection
-	   	include 'config/database.php';
+	// Check if the form has been submitted
+	if (isset($_POST['login'])) {
 
-		   // Get the form data
-	   	$username = htmlspecialchars(strip_tags($_POST['username']));
-		   $pass = htmlspecialchars(strip_tags($_POST['pass']));
+		// include database connection
+		include 'config/database.php';
 
-		   // Check if both fields are filled
-	   	if (empty($username)) {
-            $error_message = "Username is required";
-          }
-		   if (empty($pass)) {
-			   $error_message = "Password is required";
-		   }else {
-			   // Execute the query to retrieve the user's information
-	   		$query = "SELECT * FROM customers WHERE username=:username, pass=:pass";
+		// Get the form data
+		$username = htmlspecialchars(strip_tags($_POST['username']));
+		$pass = htmlspecialchars(strip_tags($_POST['pass']));
 
-			   $stmt = $con->prepare($query);
-			   $stmt->bindParam(':pass', $pass);
-			   $stmt->bindParam(':username', $username);
-			   $stmt->execute();
+		// Check if both fields are filled
+		if (empty($username)) {
+			$error_message = "Username is required";
+		}
+		if (empty($pass)) {
+			$error_message = "Password is required";
+		} else {
+			// Execute the query to retrieve the user's information
+			$query = "SELECT * FROM customers WHERE username=:username, pass=:pass";
 
-			   //if return result
-			 $result = $stmt->rowCount();
+			$stmt = $con->prepare($query);
+			$stmt->bindParam(':pass', $pass);
+			$stmt->bindParam(':username', $username);
+			$stmt->execute();
 
-			 if ($result == 1){
-			   // Check if the query returned exactly one row
-				   $user = $stmt->fetch(PDO::FETCH_ASSOC);
+			//if return result
+			$result = $stmt->rowCount();
 
-					   
-	   				if ($user['accstatus'] == 'active'){
-					   
-						$_SESSION['username'] = $username;
-					   
-					   header("Location: home.php");
-					   exit();
-					   
-				   } else {
-					   //acc inactive
-	   				$error_message = 'Your account is inactive';
-				   }
-			   } else {
-				   // Username/email not found or account is inactive
-	   			$error_message = 'Invalid username or password';
-			   }
-			   
-		   }
-	   }
+			if ($result == 1) {
+				// Check if the query returned exactly one row
+				$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-	   ?>
+
+				if ($user['accstatus'] == 'active') {
+
+					$_SESSION['username'] = $username;
+
+					header("Location: home.php");
+					exit();
+
+				} else {
+					//acc inactive
+					$error_message = 'Your account is inactive';
+				}
+			} else {
+				// Username/password not found
+				$error_message = 'Invalid username or password';
+			}
+
+		}
+	}
+
+	?>
 
 
 	<section class="ftco-section">
@@ -116,7 +117,6 @@
 									</div>
 		            </div>
 		          </form>
-		          <p class="text-center">Not a member? <a data-toggle="tab" href="#signup">Sign Up</a></p>
 		        </div>
 		      </div>
 				</div>

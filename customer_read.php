@@ -339,7 +339,7 @@
                         Customers <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="http://localhost/project/createcustomers.php">Create Customers</a></li>
-                        <li><a href="#">List All Customer</a></li>
+                        <li><a href="http://localhost/project/customer_read.php">List All Customer</a></li>
                         <li><a href="#">Read One Customer's Details</a></li>
                     </ul>
                 </li>
@@ -371,7 +371,7 @@
                     $num = $stmt->rowCount();
 
                     // link to create record form
-                    echo "<a href='create.php' class='btn btn-primary m-b-1em'>Create New Product</a>";
+                    echo "<a href='createcustomers.php' class='btn btn-primary m-b-1em'>Create New Customers</a>";
 
                     //check if more than 0 record found
                     if ($num > 0) {
@@ -382,8 +382,10 @@
                         //creating our table heading
                         echo "<tr>";
                         echo "<th>ID</th>";
-                        echo "<th>Username</th>";
                         echo "<th>Pass</th>";
+                        echo "<th>FirstName</th>";
+                        echo "<th>LastName</th>";
+                        echo "<th>Gender</th>";
                         echo "<th>Accstatus</th>";
                         echo "</tr>";
 
@@ -396,18 +398,20 @@
                             // creating new table row per record
                             echo "<tr>";
                             echo "<td>{$id}</td>";
-                            echo "<td>{$username}</td>";
                             echo "<td>{$pass}</td>";
+                            echo "<td>{$firstname}</td>";
+                            echo "<td>{$lastname}</td>";
+                            echo "<td>{$gender}</td>";
                             echo "<td>{$accstatus}</td>";
                             echo "<td>";
                             // read one record
-                            echo "<a href='customer_read_one.php?id={$username}' class='btn btn-info m-r-1em'>Read</a>";
+                            echo "<a href='customer_read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
 
                             // we will use this links on next part of this post
-                            echo "<a href='update.php?id={$username}' class='btn btn-primary m-r-1em'>Edit</a>";
+                            echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
 
                             // we will use this links on next part of this post
-                            echo "<a href='#' onclick='delete_user({$username});'  class='btn btn-danger'>Delete</a>";
+                            echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
                             echo "</td>";
                             echo "</tr>";
                         }

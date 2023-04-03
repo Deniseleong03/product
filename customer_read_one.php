@@ -339,7 +339,7 @@
                         Customers <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="http://localhost/project/createcustomers.php">Create Customers</a></li>
-                        <li><a href="#">List All Customer</a></li>
+                        <li><a href="http://localhost/project/customer_read.php">List All Customer</a></li>
                         <li><a href="#">Read One Customer's Details</a></li>
                     </ul>
                 </li>
@@ -370,7 +370,7 @@
                 // read current record's data
                 try {
                     // prepare select query
-                    $query = "SELECT id, username, pass, accstatus FROM customers WHERE id = ? LIMIT 0,1";
+                    $query = "SELECT id, username, pass, firstname, lastname, gender, dob, accstatus FROM customers WHERE id = ? LIMIT 0,1";
                     $stmt = $con->prepare($query);
 
                     // this is the first question mark
@@ -382,11 +382,16 @@
                     // store retrieved row to a variable
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                    // values to fill up our form
-                    $id = $row['id'];
-                    $username = $row['username'];
-                    $pass = $row['pass'];
-                    $accstatus = $row['accstatus'];
+                    // check if row is false
+                    
+                        // values to fill up our form
+                        $id = $row['id'];
+                        $pass = $row['pass'];
+                        $firstname = $row['firstname'];
+                        $lastname = $row['lastname'];
+                        $gender = $row['gender'];
+                        $accstatus = $row['accstatus'];
+                   
                 }
 
                 // show error
@@ -400,12 +405,6 @@
                 <!--we have our html table here where the record will be displayed-->
                 <table class='table table-hover table-responsive table-bordered'>
                     <tr>
-                        <td>id</td>
-                        <td>
-                            <?php echo htmlspecialchars($id, ENT_QUOTES); ?>
-                        </td>
-                    </tr>
-                    <tr>
                         <td>Username</td>
                         <td>
                             <?php echo htmlspecialchars($username, ENT_QUOTES); ?>
@@ -415,6 +414,18 @@
                         <td>Pass</td>
                         <td>
                             <?php echo htmlspecialchars($pass, ENT_QUOTES); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>First Name</td>
+                        <td>
+                            <?php echo htmlspecialchars($firstname, ENT_QUOTES); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Last Name</td>
+                        <td>
+                            <?php echo htmlspecialchars($lastname, ENT_QUOTES); ?>
                         </td>
                     </tr>
                     <tr>

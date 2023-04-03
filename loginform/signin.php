@@ -19,12 +19,12 @@
 
 	<!-- PHP signin will be here -->
        <?php
-	   session_start(); // Start the session
-	   
 	   // Check if the form has been submitted
-	   if ($_POST) {
+	   if (isset($_POST['login'])) {
+
 		   // include database connection
 	   	include 'config/database.php';
+
 		   // Get the form data
 	   	$username = htmlspecialchars(strip_tags($_POST['username']));
 		   $pass = htmlspecialchars(strip_tags($_POST['pass']));
@@ -37,27 +37,35 @@
 			   $error_message = "Password is required";
 		   }else {
 			   // Execute the query to retrieve the user's information
-	   		$query = "SELECT * FROM customers WHERE (username='$username' OR email='$username') AND status='active'";
-			   $result = mysqli_query($conn, $query);
+	   		$query = "SELECT * FROM customers WHERE username=:username, pass=:pass";
 
+			   $stmt = $con->prepare($query);
+			   $stmt->bindParam(':pass', $pass);
+			   $stmt->bindParam(':username', $username);
+			   $stmt->execute();
+
+			   //if return result
+			 $result = $stmt->rowCount();
+
+			 if ($result == 1){
 			   // Check if the query returned exactly one row
-	   		if (mysqli_num_rows($result) == 1) {
-				   $user = mysqli_fetch_assoc($result);
+				   $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-				   // Verify the password hash
-	   			if (password_verify($pass, $user['pass'])) {
-					
-					   // Password is correct, set the session variable and redirect to home page
-	   				$_SESSION['user_id'] = $user['id'];
-					   header('Location: home.php');
+					   
+	   				if ($user['accstatus'] == 'active'){
+					   
+						$_SESSION['username'] = $username;
+					   
+					   header("Location: home.php");
 					   exit();
+					   
 				   } else {
-					   // Password is incorrect
-	   				$error_message = 'Incorrect password.';
+					   //acc inactive
+	   				$error_message = 'Your account is inactive';
 				   }
 			   } else {
 				   // Username/email not found or account is inactive
-	   			$error_message = 'Incorrect username/email or account is inactive.';
+	   			$error_message = 'Invalid username or password';
 			   }
 			   
 		   }
@@ -94,7 +102,7 @@
 		              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 		            </div>
 		            <div class="form-group">
-		            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
+		            	<button type="submit" name='login' class="form-control btn btn-primary rounded submit px-3">Sign In</button>
 		            </div>
 		            <div class="form-group d-md-flex">
 		            	<div class="w-50 text-left">
@@ -116,12 +124,7 @@
 		</div>
 	</section>
 
-	<!-- Display an error message if the login failed -->
-<?php if (isset($error_message)) { ?>
-		<p>
-			<?php echo $error_message; ?>
-		</p>
-	<?php } ?>
+
 
 
 

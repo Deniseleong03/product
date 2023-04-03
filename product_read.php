@@ -337,7 +337,7 @@
             Customers <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="http://localhost/project/createcustomers.php">Create Customers</a></li>
-            <li><a href="http://localhost/project/customer_read.php">List All Customer</a></li>
+            <li><a href="#">List All Customer</a></li>
             <li><a href="#">Read One Customer's Details</a></li>
           </ul>
         </li>

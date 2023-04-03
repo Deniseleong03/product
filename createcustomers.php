@@ -544,8 +544,8 @@
             <td><label for="accstatus">Account Status</label></td>
             <td>
               
-                <input type="radio" name="accstatus" id="accstatus" value="accstatus"><label for="accstatus">Active</label>
-                <input type="radio" name="accstatus" id="accstatus" value="accstatus"><label for="accstatus">Inactive</label>
+                <input type="radio" name="accstatus" id="active" value="active"><label for="active">Active</label>
+                <input type="radio" name="accstatus" id="inactive" value="inactive"><label for="inactive">Inactive</label>
                 
             
            <br>

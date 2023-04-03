@@ -18,60 +18,69 @@
     <div class="container">
 
 	<!-- PHP signin will be here -->
-       <?php
+     <?php
+	session_start();
 
 	// Check if the form has been submitted
 	if (isset($_POST['login'])) {
 
-		// include database connection
-		include 'config/database.php';
+		try {
+			// include database connection
+			include "C:\wamp64\www\project\config\database.php";
 
-		// Get the form data
-		$username = htmlspecialchars(strip_tags($_POST['username']));
-		$pass = htmlspecialchars(strip_tags($_POST['pass']));
+			// Get the form data
+			$username = htmlspecialchars(strip_tags($_POST['username']));
+			$pass = htmlspecialchars(strip_tags($_POST['pass']));
 
-		// Check if both fields are filled
-		if (empty($username)) {
-			$error_message = "Username is required";
-		}
-		if (empty($pass)) {
-			$error_message = "Password is required";
-		} else {
-			// Execute the query to retrieve the user's information
-			$query = "SELECT * FROM customers WHERE username=:username, pass=:pass";
+			// Initialize error message variable
+			$error_message = '';
 
-			$stmt = $con->prepare($query);
-			$stmt->bindParam(':pass', $pass);
-			$stmt->bindParam(':username', $username);
-			$stmt->execute();
-
-			//if return result
-			$result = $stmt->rowCount();
-
-			if ($result == 1) {
-				// Check if the query returned exactly one row
-				$user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-				if ($user['accstatus'] == 'active') {
-
-					$_SESSION['username'] = $username;
-
-					header("Location: home.php");
-					exit();
-
-				} else {
-					//acc inactive
-					$error_message = 'Your account is inactive';
-				}
-			} else {
-				// Username/password not found
-				$error_message = 'Invalid username or password';
+			// Check if both fields are filled
+			if (empty($username)) {
+				$usernameErr = "Username is required";
+				$error_message = "<div class='alert alert-danger'>$usernameErr</div>";
+			}
+			if (empty($pass)) {
+				$passErr = "Password is required";
+				$error_message .= "<div class='alert alert-danger'>$passErr</div>";
 			}
 
+			// check if there are any errors
+			if (empty($error_message)) {
+
+				// Execute the query to retrieve the user's information
+				$query = "SELECT * FROM customers WHERE username = :username AND pass = :pass";
+
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':pass', $pass);
+				$stmt->bindParam(':username', $username);
+				$stmt->execute();
+
+				//if return result
+				$result = $stmt->rowCount();
+
+				if ($result == 1) {
+					// Check if the query returned exactly one row
+					$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+					if ($user['accstatus'] == 'active') {
+						$_SESSION['username'] = $username;
+						header("Location:home.php");
+						exit();
+
+					} else {
+						//acc inactive
+						$error_message .= "<div class='alert alert-danger'>Your account is inactive</div>";
+					}
+				} else {
+					// Username/password not found
+					$error_message .= "<div class='alert alert-danger'>Invalid username or password</div>";
+				}
+			}
+		} catch (PDOException $e) {
+			echo "Error: " . $e->getMessage();
 		}
 	}
-
 	?>
 
 
@@ -92,33 +101,45 @@
 			      		</div>
 								
 			      	</div>
-							<form action="#" class="signin-form">
-			      		<div class="form-group mt-3">
-			      			<input type="text" class="form-control" required>
-			      			<label class="form-control-placeholder" for="username">Username</label>
-			      		</div>
-		            <div class="form-group">
-		              <input id="password-field" type="password" class="form-control" required>
-		              <label class="form-control-placeholder" for="password">Password</label>
-		              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-		            </div>
-		            <div class="form-group">
-		            	<button type="submit" name='login' class="form-control btn btn-primary rounded submit px-3">Sign In</button>
-		            </div>
-		            <div class="form-group d-md-flex">
-		            	<div class="w-50 text-left">
-			            	<label class="checkbox-wrap checkbox-primary mb-0">Remember Me
-									  <input type="checkbox" checked>
-									  <span class="checkmark"></span>
+							<form $action="#" method="POST" class="signin-form">
+							<div class="form-group mt-3">
+								<input type="text" name="username" class="form-control" required>
+									<label class="form-control-placeholder" for="username">Username</label>
+										<?php if (isset($usernameErr)) { ?>
+										<span class="text-danger">
+											<?php echo $usernameErr; ?>
+										</span>
+									<?php } ?>
+								</div>
+								<div class="form-group">
+									<input id="password-field" type="password" name="pass" class="form-control" required>
+									<label class="form-control-placeholder" for="password">Password</label>
+									<span toggle="#password-field"
+										class="fa fa-fw fa-eye field-icon toggle-password"></span>
+									<?php if (isset($passErr)) { ?>
+										<span class="text-danger">
+											<?php echo $passErr; ?>
+										</span>
+									<?php } ?>
+								</div>
+								<div class="form-group">
+									<button type="submit" name='login'
+										class="form-control btn btn-primary rounded submit px-3">Sign In</button>
+								</div>
+								<div class="form-group d-md-flex">
+									<div class="w-50 text-left">
+										<label class="checkbox-wrap checkbox-primary mb-0">Remember Me
+											<input type="checkbox" checked>
+											<span class="checkmark"></span>
 										</label>
 									</div>
 									<div class="w-50 text-md-right">
 										<a href="#">Forgot Password</a>
 									</div>
-		            </div>
-		          </form>
-		        </div>
-		      </div>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

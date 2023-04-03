@@ -382,6 +382,7 @@
                         //creating our table heading
                         echo "<tr>";
                         echo "<th>ID</th>";
+                        echo "<th>Username</th>";
                         echo "<th>Pass</th>";
                         echo "<th>FirstName</th>";
                         echo "<th>LastName</th>";
@@ -398,6 +399,7 @@
                             // creating new table row per record
                             echo "<tr>";
                             echo "<td>{$id}</td>";
+                            echo "<td>{$username}</td>";
                             echo "<td>{$pass}</td>";
                             echo "<td>{$firstname}</td>";
                             echo "<td>{$lastname}</td>";

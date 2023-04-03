@@ -386,6 +386,7 @@
                     
                         // values to fill up our form
                         $id = $row['id'];
+                        $username = $username['id'];
                         $pass = $row['pass'];
                         $firstname = $row['firstname'];
                         $lastname = $row['lastname'];

@@ -22,7 +22,7 @@
 	session_start();
 
 	// Check if the form has been submitted
-	if (isset($_POST['login'])) {
+	if (isset($_POST['submit'])) {
 		 // include database connection
 	 	include 'config/database.php';
 
@@ -124,7 +124,7 @@
 									<?php } ?>
 								</div>
 								<div class="form-group">
-									<button type="submit" name='login'
+									<button type="submit" name='submit'
 										class="form-control btn btn-primary rounded submit px-3">Sign In</button>
 								</div>
 								<div class="form-group d-md-flex">

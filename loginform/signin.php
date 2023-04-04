@@ -39,7 +39,7 @@
 			// Check if both fields are filled
 			if (empty($username)) {
 				$usernameErr = "Username is required";
-				$error_message = "<div class='alert alert-danger'>$usernameErr</div>";
+				$error_message .= "<div class='alert alert-danger'>$usernameErr</div>";
 			}
 			if (empty($pass)) {
 				$passErr = "Password is required";

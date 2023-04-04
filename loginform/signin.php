@@ -23,10 +23,11 @@
 
 	// Check if the form has been submitted
 	if (isset($_POST['login'])) {
+		 // include database connection
+	 	include 'config/database.php';
 
 		try {
-			// include database connection
-			include "C:\wamp64\www\project\config\database.php";
+
 
 			// Get the form data
 			$username = htmlspecialchars(strip_tags($_POST['username']));
@@ -77,9 +78,9 @@
 					$error_message .= "<div class='alert alert-danger'>Invalid username or password</div>";
 				}
 			}
-		} catch (PDOException $e) {
-			echo "Error: " . $e->getMessage();
-		}
+		} catch (PDOException $exception) {
+			 die('ERROR: ' . $exception->getMessage());
+		 }
 	}
 	?>
 
@@ -101,7 +102,7 @@
 			      		</div>
 								
 			      	</div>
-							<form $action="#" method="POST" class="signin-form">
+							<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="signin-form">
 							<div class="form-group mt-3">
 								<input type="text" name="username" class="form-control" required>
 									<label class="form-control-placeholder" for="username">Username</label>

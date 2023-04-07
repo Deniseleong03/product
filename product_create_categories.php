@@ -343,13 +343,14 @@
             </li>
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle"
-                    href="http://localhost/project/product_create.php#">Create
+                    href="http://localhost/project/product_create_categories.php#">Create
                     Categories <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="http://localhost/project/product_create.php">Clothing and Accessories</a></li>
-                    <li><a href="http://localhost/project/product_read.php">Sports and Fitness</a></li>
-                    <li><a href="http://localhost/project/product_read_one.php#">Food and Beverage</a></li>
-                    <li><a href="http://localhost/project/product_read_one.php#">Electronics</a></li>
+                  <li><a href="http://localhost/project/product_create_categories.php#">Create Categories</a></li>
+                    <li><a href="http://localhost/project/categories/clothing_and_accessories.php">Clothing and Accessories</a></li>
+                    <li><a href="http://localhost/project/categories/sports_and_fitness.php">Sports and Fitness</a></li>
+                    <li><a href="http://localhost/project/categories/food_and_beverage.php">Food and Beverage</a></li>
+                    <li><a href="http://localhost/project/categories/electronics.php">Electronics</a></li>
                 </ul>
             </li>
         </ul>
@@ -545,7 +546,7 @@
       <option value="category1">Clothing and Accessories</option>
       <option value="category2">Sports and Fitness</option>
       <option value="category3">Food and Beverage</option>
-      <option value="category3">Electronics</option>
+      <option value="category4">Electronics</option>
       
     </select>
     <?php if (isset($categories_error)) { ?>

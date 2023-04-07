@@ -307,42 +307,60 @@
   </script>
 </head>
 <body>
-  <nav class="navbar navbar-default navbar-expand-lg navbar-light">
+ <nav class="navbar navbar-default navbar-expand-lg navbar-light">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Brand<b>Name</b></a>
-      <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-        <span class="navbar-toggler-icon"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+        <a class="navbar-brand" href="#">Brand<b>Name</b></a>
+        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+            <span class="navbar-toggler-icon"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
     </div>
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="http://localhost/project/home.php">Home</a></li>
-        <li><a href="http://localhost/project/contactus.php">Contact Us</a></li>
-        <li class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="http://localhost/project/product_create.php#">Create
-            Product <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="http://localhost/project/product_create.php">Create Products</a></li>
-            <li><a href="http://localhost/project/product_read.php">List All Product</a></li>
-            <li><a href="http://localhost/project/product_read_one.php#">Read One Product's Details</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="http://localhost/project/createcustomers.php">Create
-            Customers <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="http://localhost/project/createcustomers.php">Create Customers</a></li>
-            <li><a href="#">List All Customer</a></li>
-            <li><a href="#">Read One Customer's Details</a></li>
-          </ul>
-        </li>
-
-
-      </ul>
+        <ul class="nav navbar-nav">
+            <li><a href="http://localhost/project/home.php">Home</a></li>
+            <li><a href="http://localhost/project/contactus.php">Contact Us</a></li>
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle"
+                    href="http://localhost/project/product_create.php#">
+                    Product <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="http://localhost/project/product_create.php">Create Products</a></li>
+                    <li><a href="http://localhost/project/product_read.php">List All Product</a></li>
+                    <li><a href="http://localhost/project/product_read_one.php#">Read One Product's Details</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle"
+                    href="http://localhost/project/createcustomers.php">
+                    Customers <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="http://localhost/project/createcustomers.php">Create Customers</a></li>
+                    <li><a href="http://localhost/project/customer_read.php">List All Customer</a></li>
+                    <li><a href="#">Read One Customer's Details</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle"
+                    href="http://localhost/project/product_create.php#">Create
+                    Categories <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                   <li><a href="http://localhost/project/product_create_categories.php#">Create Categories</a></li>
+                    <li><a href="http://localhost/project/categories/clothing_and_accessories.php">Clothing and Accessories</a></li>
+                    <li><a href="http://localhost/project/categories/sports_and_fitness.php">Sports and Fitness</a></li>
+                    <li><a href="http://localhost/project/categories/food_and_beverage.php">Food and Beverage</a></li>
+                    <li><a href="http://localhost/project/categories/electronics.php">Electronics</a></li>
+                </ul>
+            </li>
+        </ul>
+        <!-- Right side of navbar -->
+        <ul class="nav navbar-nav navbar-right">
+            <li id="logout"><a href="http://localhost/project/loginform/signin.php">Log out</a></li>
+        </ul>
+    </div>
+</nav>
 <body>
 <h1>Welcome<h1>
   </body>

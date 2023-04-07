@@ -306,7 +306,6 @@
     });
   </script>
 </head>
-
 <body>
   <nav class="navbar navbar-default navbar-expand-lg navbar-light">
     <div class="navbar-header">
@@ -337,13 +336,14 @@
             Customers <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="http://localhost/project/createcustomers.php">Create Customers</a></li>
-            <li><a href="http://localhost/project/customer_read.php">List All Customer</a></li>
+            <li><a href="#">List All Customer</a></li>
             <li><a href="#">Read One Customer's Details</a></li>
           </ul>
         </li>
 
 
       </ul>
+<body>
 
 
 
@@ -365,8 +365,8 @@
           
           // Get the form data
           $username = htmlspecialchars(strip_tags($_POST['username']));
-          $pass = htmlspecialchars(strip_tags($_POST['pass']));
-          $confpassword = htmlspecialchars(strip_tags($_POST['confpassword']));
+          $pass = $_POST['pass'];
+          $confpassword = $_POST['confpassword'];
           $firstname = htmlspecialchars(strip_tags($_POST['firstname']));
           $lastname = htmlspecialchars(strip_tags($_POST['lastname']));
           if (isset($_POST['gender'])){
@@ -402,6 +402,8 @@
             $confpasswordErr = "Confirm Password is required";
           } elseif ($pass != $confpassword) {
             $confpasswordErr = "Passwords do not match";
+          }else{
+            $pass = md5($pass);
           }
 
           if (empty($firstname)) {

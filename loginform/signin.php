@@ -18,13 +18,13 @@
     <div class="container">
 
 	<!-- PHP signin will be here -->
-     <?php
+    <?php
 	session_start();
 
 	// Check if the form has been submitted
 	if (isset($_POST['submit'])) {
-		 // include database connection
-	 	include 'config/database.php';
+		// include database connection
+		include '../config/database.php';
 
 		try {
 
@@ -50,10 +50,9 @@
 			if (empty($error_message)) {
 
 				// Execute the query to retrieve the user's information
-				$query = "SELECT * FROM customers WHERE username = :username AND pass = :pass";
+				$query = "SELECT * FROM customers WHERE username = :username";
 
 				$stmt = $con->prepare($query);
-				$stmt->bindParam(':pass', $pass);
 				$stmt->bindParam(':username', $username);
 				$stmt->execute();
 
@@ -64,25 +63,32 @@
 					// Check if the query returned exactly one row
 					$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-					if ($user['accstatus'] == 'active') {
-						$_SESSION['username'] = $username;
-						header("Location:home.php");
-						exit();
+					if ($user['pass'] == md5($pass)) {
+						if ($user['accstatus'] == 'active') {
 
+
+							$_SESSION['username'] = $username;
+							header("Location:../home.php");
+							exit();
+						} else {
+							//acc inactive
+							$error_message .= "<div class='alert alert-danger'>Your account is inactive</div>";
+						}
 					} else {
-						//acc inactive
-						$error_message .= "<div class='alert alert-danger'>Your account is inactive</div>";
+						// Username/password not found
+						$error_message .= "<div class='alert alert-danger'>Incorrect password</div>";
 					}
 				} else {
-					// Username/password not found
-					$error_message .= "<div class='alert alert-danger'>Invalid username or password</div>";
+					// Incorrect username / email
+					$error_message .= "<div class='alert alert-danger'>Incorrect username / email</div>";
 				}
 			}
 		} catch (PDOException $exception) {
-			 die('ERROR: ' . $exception->getMessage());
-		 }
+			die('ERROR: ' . $exception->getMessage());
+		}
 	}
 	?>
+
 
 
 	<section class="ftco-section">
@@ -99,12 +105,13 @@
 			      	<div class="d-flex">
 			      		<div class="w-100">
 			      			<h3 class="mb-4">Sign In</h3>
+							<?php if(isset($error_message)) echo $error_message; ?>
 			      		</div>
 								
 			      	</div>
 							<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="signin-form">
 							<div class="form-group mt-3">
-								<input type="text" name="username" class="form-control" required>
+								<input type="text" name="username" class="form-control" >
 									<label class="form-control-placeholder" for="username">Username</label>
 										<?php if (isset($usernameErr)) { ?>
 										<span class="text-danger">
@@ -113,7 +120,7 @@
 									<?php } ?>
 								</div>
 								<div class="form-group">
-									<input id="password-field" type="password" name="pass" class="form-control" required>
+									<input id="password-field" type="password" name="pass" class="form-control" >
 									<label class="form-control-placeholder" for="password">Password</label>
 									<span toggle="#password-field"
 										class="fa fa-fw fa-eye field-icon toggle-password"></span>

@@ -306,49 +306,65 @@
     });
   </script>
 </head>
-<body>
-  <nav class="navbar navbar-default navbar-expand-lg navbar-light">
+<nav class="navbar navbar-default navbar-expand-lg navbar-light">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Brand<b>Name</b></a>
-      <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-        <span class="navbar-toggler-icon"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+        <a class="navbar-brand" href="#">Brand<b>Name</b></a>
+        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+            <span class="navbar-toggler-icon"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
     </div>
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="http://localhost/project/home.php">Home</a></li>
-        <li><a href="http://localhost/project/contactus.php">Contact Us</a></li>
-        <li class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="http://localhost/project/product_create.php#">Create
-            Product <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="http://localhost/project/product_create.php">Create Products</a></li>
-            <li><a href="http://localhost/project/product_read.php">List All Product</a></li>
-            <li><a href="http://localhost/project/product_read_one.php#">Read One Product's Details</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="http://localhost/project/createcustomers.php">Create
-            Customers <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="http://localhost/project/createcustomers.php">Create Customers</a></li>
-            <li><a href="#">List All Customer</a></li>
-            <li><a href="#">Read One Customer's Details</a></li>
-          </ul>
-        </li>
-
-
-      </ul>
+        <ul class="nav navbar-nav">
+            <li><a href="http://localhost/project/home.php">Home</a></li>
+            <li><a href="http://localhost/project/contactus.php">Contact Us</a></li>
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle"
+                    href="http://localhost/project/product_create.php#">
+                    Product <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="http://localhost/project/product_create.php">Create Products</a></li>
+                    <li><a href="http://localhost/project/product_read.php">List All Product</a></li>
+                    <li><a href="http://localhost/project/product_read_one.php#">Read One Product's Details</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle"
+                    href="http://localhost/project/createcustomers.php">
+                    Customers <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="http://localhost/project/createcustomers.php">Create Customers</a></li>
+                    <li><a href="http://localhost/project/customer_read.php">List All Customer</a></li>
+                    <li><a href="#">Read One Customer's Details</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle"
+                    href="http://localhost/project/product_create.php#">Create
+                    Categories <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="http://localhost/project/product_create.php">Clothing and Accessories</a></li>
+                    <li><a href="http://localhost/project/product_read.php">Sports and Fitness</a></li>
+                    <li><a href="http://localhost/project/product_read_one.php#">Food and Beverage</a></li>
+                    <li><a href="http://localhost/project/product_read_one.php#">Electronics</a></li>
+                </ul>
+            </li>
+        </ul>
+        <!-- Right side of navbar -->
+        <ul class="nav navbar-nav navbar-right">
+            <li id="logout"><a href="http://localhost/project/loginform/signin.php">Log out</a></li>
+        </ul>
+    </div>
+</nav>
 <body>
   <!-- container -->
   <div class="container">
     <div class="page-header">
       <br>
-      <h1>Create Product</h1>
+      <h1>Create Product Categories</h1>
     </div>
 
     <!-- html form to create product will be here -->
@@ -369,6 +385,7 @@
                 $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
                 $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
                 $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
+                $categories = (isset($_POST['categories'])) ? htmlspecialchars(strip_tags($_POST['categories'])) : "";
               
 
                 // check if any field is empty
@@ -384,7 +401,9 @@
                 if (empty($manufacture_date)) {
                   $manufacture_date_error = "Please enter manufacture date";
                 }
-               
+                if (empty($categories)) {
+                  $categories_error = "Please choose a category";
+                }
 
                 // check if expired date  fill up & later than manufacture date
                 if (!empty($expired_date)) {
@@ -401,11 +420,12 @@
                 }
 
                 // check if there are any errors
-                if (!isset($name_error) && !isset($description_error) && !isset($price_error) && !isset($promotion_price_error) && !isset($manufacture_date_error) && !isset($expired_date_error)) {
+                    if (!isset($name_error) && !isset($description_error) && !isset($price_error) && !isset($promotion_price_error) && !isset($manufacture_date_error) && !isset($expired_date_error) && !isset($categories_error)) {
 
 
-                  // insert query
-                  $query = "INSERT INTO products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, created=:created"; // info insert to blindParam
+
+                        // insert query
+                  $query = "INSERT INTO products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, categories=:categories, created=:created"; // info insert to blindParam
             
     
                   // prepare query for execution
@@ -418,7 +438,7 @@
                   $stmt->bindParam(':promotion_price', $promotion_price);
                   $stmt->bindParam(':manufacture_date', $manufacture_date);
                   $stmt->bindParam(':expired_date', $expired_date);
-                  
+                  $stmt->bindParam(':categories', $categories);
 
                   // specify when this record was inserted to the database
                   $created = date('Y-m-d H:i:s');
@@ -433,6 +453,7 @@
                     $promotion_price = "";
                     $manufacture_date = "";
                     $expired_date = "";
+                    $categories = "";
                     
                   } else {
                     echo "<div class='alert alert-danger'>Unable to save record.</div>";
@@ -517,6 +538,25 @@
                     <?php } ?>
                   </td>
                 </tr>
+                     <tr>
+                    <td>Category</td>
+  <td><select name="categories" class="form-control">
+      <option value="">Select category</option>
+      <option value="category1">Clothing and Accessories</option>
+      <option value="category2">Sports and Fitness</option>
+      <option value="category3">Food and Beverage</option>
+      <option value="category3">Electronics</option>
+      
+    </select>
+    <?php if (isset($categories_error)) { ?>
+                                <span class="text-danger">
+                                    <?php echo $categories_error; ?>
+                                </span>
+                            <?php } ?>
+                        </td>
+                    </tr>
+
+               
             
                 <tr>
                   <td></td>

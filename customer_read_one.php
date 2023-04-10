@@ -20,7 +20,7 @@
             <div class="container">
                 <div class="page-header">
                     <br>
-                    <h1>Read Product</h1>
+                    <h1>Read Customers</h1>
                 </div>
 
                 <!-- PHP read one record will be here -->
@@ -52,7 +52,7 @@
                     
                         // values to fill up our form
                         $id = $row['id'];
-                        $username = $username['id'];
+                        $username = $username['username'];
                         $pass = $row['pass'];
                         $firstname = $row['firstname'];
                         $lastname = $row['lastname'];

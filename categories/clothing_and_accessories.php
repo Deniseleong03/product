@@ -52,6 +52,7 @@
             echo "<th>ID</th>";
             echo "<th>Name</th>";
             echo "<th>Description</th>";
+            echo "<th>Price</th>";
             echo "</tr>";
 
             // table body will be here
@@ -65,6 +66,7 @@
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
                 echo "<td>{$description}</td>";
+                echo "<td>{$price}</td>";
                 echo "<td>";
                 
             }

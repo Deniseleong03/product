@@ -66,7 +66,7 @@
                 echo "<td>{$catedescription}</td>";
                 echo "<td>";
 
-                // read one record
+                //link button to pages
                 if ($cateid == '1') {
                     echo "<a href='categories/clothing_and_accessories.php?id={$cateid}' class='btn btn-info m-r-1em'>Read</a>";
                 } elseif ($cateid == '2') {

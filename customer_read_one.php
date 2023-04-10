@@ -52,7 +52,7 @@
                     
                         // values to fill up our form
                         $id = $row['id'];
-                        $username = $username['username'];
+                        $username = $row['username'];
                         $pass = $row['pass'];
                         $firstname = $row['firstname'];
                         $lastname = $row['lastname'];
@@ -104,7 +104,7 @@
                     <tr>
                         <td></td>
                         <td>
-                            <a href='home.php' class='btn btn-danger'>Back to read customers</a>
+                            <a href='customer_read.php' class='btn btn-danger'>Back to read customers</a>
                         </td>
                     </tr>
                 </table>

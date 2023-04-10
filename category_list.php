@@ -65,6 +65,7 @@
                 echo "<td>{$categoryname}</td>";
                 echo "<td>{$catedescription}</td>";
                 echo "<td>";
+
                 // read one record
                 if ($cateid == '1') {
                     echo "<a href='categories/clothing_and_accessories.php?id={$cateid}' class='btn btn-info m-r-1em'>Read</a>";
@@ -75,6 +76,8 @@
                 }elseif ($cateid == '4') {
                     echo "<a href='categories/electronics.php?id={$cateid}' class='btn btn-info m-r-1em'>Read</a>";
                 }
+                
+                
                 // we will use this links on next part of this post
                 echo "<a href='update.php?id={$cateid}' class='btn btn-primary m-r-1em'>Edit</a>";
 

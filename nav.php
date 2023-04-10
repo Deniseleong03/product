@@ -345,16 +345,9 @@
                 </li>
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle"
-                        href="http://localhost/project/product_create.php#">Categories <b class="caret"></b></a>
+                        href="#">Categories <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="http://localhost/project/product_create_categories.php#">Create Categories</a></li>
-                        <li><a href="http://localhost/project/categories/clothing_and_accessories.php">Clothing and
-                                Accessories</a></li>
-                        <li><a href="http://localhost/project/categories/sports_and_fitness.php">Sports and Fitness</a>
-                        </li>
-                        <li><a href="http://localhost/project/categories/food_and_beverage.php">Food and Beverage</a>
-                        </li>
-                        <li><a href="http://localhost/project/categories/electronics.php">Electronics</a></li>
                         <li><a href="http://localhost/project/category_list.php">Category List</a></li>
                     </ul>
                 </li>

@@ -34,38 +34,38 @@
               try {
 
                 $categoryname = isset($_POST['categoryname']) ? htmlspecialchars(strip_tags($_POST['categoryname'])) : "";
-                $categorydescription = isset($_POST['categorydescription']) ? htmlspecialchars(strip_tags($_POST['categorydescription'])) : "";
+                $catedescription = isset($_POST['catedescription']) ? htmlspecialchars(strip_tags($_POST['catedescription'])) : "";
 
                 // check if any field is empty
                 if (empty($categoryname)) {
                   $categoryname_error = "Please enter category name";
                 }
-                if (empty($categorydescription)) {
-                  $categorydescription_error = "Please enter category description";
+                if (empty($catedescription)) {
+                  $catedescription_error = "Please enter category description";
                 }
 
                 // check if there are any errors
-                if (!isset($categoryname_error) && !isset($categorydescription_error)) {
+                if (!isset($categoryname_error) && !isset($catedescription_error)) {
 
                   // insert query
-                  $query = "INSERT INTO categories SET categoryname=:categoryname, categorydescription=:categorydescription, created=:created"; // info insert to blindParam
+                  $query = "INSERT INTO categories SET categoryname=:categoryname, catedescription=:catedescription "; // info insert to blindParam
             
                   // prepare query for execution
                   $stmt = $con->prepare($query);
 
                   // bind the parameters
                   $stmt->bindParam(':categoryname', $categoryname);
-                  $stmt->bindParam(':categorydescription', $categorydescription);
+                  $stmt->bindParam(':catedescription', $catedescription);
 
                   // specify when this record was inserted to the database
                   $created = date('Y-m-d H:i:s');
-                  $stmt->bindParam(':created', $created);
+                  
 
                   // Execute the query
                   if ($stmt->execute()) {
                     echo "<div class='alert alert-success'>Record was saved.</div>";
                     $categoryname = "";
-                    $categorydescription = "";
+                    $catedescription = "";
                   } else {
                     echo "<div class='alert alert-danger'>Unable to save record.</div>";
                   }
@@ -86,7 +86,7 @@
               <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                   <td>Category Name</td>
-                  <td><input type='text' name='name' class="form-control"
+                  <td><input type='text' name='categoryname' class="form-control"
                       value="<?php echo isset($categoryname) ? htmlspecialchars($categoryname) : ''; ?>" />
                     <?php if (isset($categoryname_error)) { ?><span class="text-danger">
                         <?php echo $categoryname_error; ?>
@@ -97,18 +97,13 @@
             
                 <tr>
                   <td>Category Description</td>
-                  <td><textarea name='description' class="form-control"
-                      value="<?php echo isset($categorydescription) ? htmlspecialchars($categorydescription) : ''; ?>"></textarea>
-                    <?php if (isset($categorydescription_error)) { ?><span class="text-danger">
-                        <?php echo $categorydescription_error; ?>
+                  <td><textarea name='catedescription' class="form-control"><?php echo isset($catedescription) ? htmlspecialchars($catedescription) : ''; ?></textarea>
+                    <?php if (isset($catedescription_error)) { ?><span class="text-danger">
+                        <?php echo $catedescription_error; ?>
                       </span>
                     <?php } ?>
                   </td>
                 </tr>
-            
-               
-
-               
             
                 <tr>
                   <td></td>

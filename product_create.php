@@ -19,7 +19,7 @@
   <div class="container">
     <div class="page-header">
       <br>
-      <h1>Create Product Categories</h1>
+      <h1>Create Product</h1>
     </div>
 
     <!-- html form to create product will be here -->

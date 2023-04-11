@@ -34,66 +34,37 @@
               try {
 
 
-                $name = htmlspecialchars(strip_tags($_POST['name']));
-                $description = htmlspecialchars(strip_tags($_POST['description']));
-                $price = htmlspecialchars(strip_tags($_POST['price']));
-                $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
-                $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
-                $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
-                $categories = (isset($_POST['categories'])) ? htmlspecialchars(strip_tags($_POST['categories'])) : "";
+                $categoryname = htmlspecialchars(strip_tags($_POST['categoryname']));
+                $categorydescription = htmlspecialchars(strip_tags($_POST['categorydescription']));
+                
               
 
                 // check if any field is empty
-                if (empty($name)) {
-                  $name_error = "Please enter product name";
+                if (empty($categoryname)) {
+                  $categoryname_error = "Please enter category name";
                 }
-                if (empty($description)) {
-                  $description_error = "Please enter product description";
+                if (empty($categorydescription)) {
+                  $categorydescription_error = "Please enter category description description";
                 }
-                if (empty($price)) {
-                  $price_error = "Please enter product price";
-                }
-                if (empty($manufacture_date)) {
-                  $manufacture_date_error = "Please enter manufacture date";
-                }
-                if (empty($categories)) {
-                  $categories_error = "Please choose a category";
-                }
+                
 
-                // check if expired date  fill up & later than manufacture date
-                if (!empty($expired_date)) {
-                  if (strtotime($expired_date) <= strtotime($manufacture_date)) {
-                    $expired_date_error = "Expired date should be later than manufacture date";
-                  }
-                }
-
-                // check if user fill up promotion price & must cheaper than original price 
-                if (!empty($promotion_price)) {
-                  if ($promotion_price >= $price) {
-                    $promotion_price_error = "Promotion price must be cheaper than original price";
-                  }
-                }
 
                 // check if there are any errors
-                    if (!isset($name_error) && !isset($description_error) && !isset($price_error) && !isset($promotion_price_error) && !isset($manufacture_date_error) && !isset($expired_date_error) && !isset($categories_error)) {
+                    if (!isset($categoryname_error) && !isset($categorydescription_error)) {
 
 
 
                         // insert query
-                  $query = "INSERT INTO products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, categories=:categories, created=:created"; // info insert to blindParam
+                  $query = "INSERT INTO categories SET categoryname=:categoryname, categorydescription=:categorydescription, created=:created"; // info insert to blindParam
             
     
                   // prepare query for execution
                   $stmt = $con->prepare($query);
 
                   // bind the parameters
-                  $stmt->bindParam(':name', $name);
-                  $stmt->bindParam(':description', $description);
-                  $stmt->bindParam(':price', $price);
-                  $stmt->bindParam(':promotion_price', $promotion_price);
-                  $stmt->bindParam(':manufacture_date', $manufacture_date);
-                  $stmt->bindParam(':expired_date', $expired_date);
-                  $stmt->bindParam(':categories', $categories);
+                  $stmt->bindParam(':categoryname', $categoryname);
+                  $stmt->bindParam(':categorydescription', $categorydescription);
+                  
 
                   // specify when this record was inserted to the database
                   $created = date('Y-m-d H:i:s');
@@ -102,13 +73,9 @@
                   // Execute the query
                   if ($stmt->execute()) {
                     echo "<div class='alert alert-success'>Record was saved.</div>";
-                    $name = "";
-                    $description = "";
-                    $price = "";
-                    $promotion_price = "";
-                    $manufacture_date = "";
-                    $expired_date = "";
-                    $categories = "";
+                    $categoryname = "";
+                    $categorydescription = "";
+                    
                     
                   } else {
                     echo "<div class='alert alert-danger'>Unable to save record.</div>";
@@ -129,87 +96,28 @@
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
               <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                  <td>Name</td>
+                  <td>Category Name</td>
                   <td><input type='text' name='name' class="form-control"
-                      value="<?php echo isset($name) ? htmlspecialchars($name) : ''; ?>" />
-                    <?php if (isset($name_error)) { ?><span class="text-danger">
-                        <?php echo $name_error; ?>
+                      value="<?php echo isset($categoryname) ? htmlspecialchars($categoryname) : ''; ?>" />
+                    <?php if (isset($categoryname_error)) { ?><span class="text-danger">
+                        <?php echo $categoryname_error; ?>
                       </span>
                     <?php } ?>
                   </td>
                 </tr>
             
                 <tr>
-                  <td>Description</td>
+                  <td>Category Description</td>
                   <td><textarea name='description' class="form-control"
-                      value="<?php echo isset($description) ? htmlspecialchars($description) : ''; ?>"></textarea>
-                    <?php if (isset($description_error)) { ?><span class="text-danger">
-                        <?php echo $description_error; ?>
+                      value="<?php echo isset($categorydescription) ? htmlspecialchars($categorydescription) : ''; ?>"></textarea>
+                    <?php if (isset($categorydescription_error)) { ?><span class="text-danger">
+                        <?php echo $categorydescription_error; ?>
                       </span>
                     <?php } ?>
                   </td>
                 </tr>
             
-                <tr>
-                  <td>Price</td>
-                  <td><input type="number" name="price" class="form-control"
-                      value="<?php echo isset($price) ? htmlspecialchars($price) : ''; ?>" />
-                    <?php if (isset($price_error)) { ?><span class="text-danger">
-                        <?php echo $price_error; ?>
-                      </span>
-                    <?php } ?>
-                  </td>
-                </tr>
-            
-                <tr>
-                  <td>Promotion Price</td>
-                  <td><input type="number" name="promotion_price" class="form-control"
-                      value="<?php echo isset($promotion_price) ? htmlspecialchars($promotion_price) : ''; ?>" />
-                    <?php if (isset($promotion_price_error)) { ?><span class="text-danger">
-                        <?php echo $promotion_price_error; ?>
-                      </span>
-                    <?php } ?>
-                  </td>
-                </tr>
-            
-                <tr>
-                  <td>Manufacture Date</td>
-                  <td><input type="date" name="manufacture_date" class="form-control"
-                      value="<?php echo isset($manufacture_date) ? htmlspecialchars($manufacture_date) : ''; ?>" />
-                    <?php if (isset($manufacture_date_error)) { ?><span class="text-danger">
-                        <?php echo $manufacture_date_error; ?>
-                      </span>
-                    <?php } ?>
-                  </td>
-                </tr>
-            
-                <tr>
-                  <td>Expired Date</td>
-                  <td><input type="date" name="expired_date" class="form-control"
-                      value="<?php echo isset($expired_date) ? htmlspecialchars($expired_date) : ''; ?>" />
-                    <?php if (isset($expired_date_error)) { ?><span class="text-danger">
-                        <?php echo $expired_date_error; ?>
-                      </span>
-                    <?php } ?>
-                  </td>
-                </tr>
-                     <tr>
-                    <td>Category</td>
-  <td><select name="categories" class="form-control">
-      <option value="">Select category</option>
-      <option value="category1">Clothing and Accessories</option>
-      <option value="category2">Sports and Fitness</option>
-      <option value="category3">Food and Beverage</option>
-      <option value="category4">Electronics</option>
-      
-    </select>
-    <?php if (isset($categories_error)) { ?>
-                                <span class="text-danger">
-                                    <?php echo $categories_error; ?>
-                                </span>
-                            <?php } ?>
-                        </td>
-                    </tr>
+               
 
                
             
@@ -217,7 +125,7 @@
                   <td></td>
                   <td>
                     <input type='submit' value='Save' class='btn btn-primary' />
-                    <a href='index.php' class='btn btn-danger'>Back to read products</a>
+                    <a href='product_read.php' class='btn btn-danger'>Back to read products</a>
                   </td>
                 </tr>
               </table>

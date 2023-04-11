@@ -33,38 +33,29 @@
               include 'config/database.php';
               try {
 
-
-                $categoryname = htmlspecialchars(strip_tags($_POST['categoryname']));
-                $categorydescription = htmlspecialchars(strip_tags($_POST['categorydescription']));
-                
-              
+                $categoryname = isset($_POST['categoryname']) ? htmlspecialchars(strip_tags($_POST['categoryname'])) : "";
+                $categorydescription = isset($_POST['categorydescription']) ? htmlspecialchars(strip_tags($_POST['categorydescription'])) : "";
 
                 // check if any field is empty
                 if (empty($categoryname)) {
                   $categoryname_error = "Please enter category name";
                 }
                 if (empty($categorydescription)) {
-                  $categorydescription_error = "Please enter category description description";
+                  $categorydescription_error = "Please enter category description";
                 }
-                
-
 
                 // check if there are any errors
-                    if (!isset($categoryname_error) && !isset($categorydescription_error)) {
+                if (!isset($categoryname_error) && !isset($categorydescription_error)) {
 
-
-
-                        // insert query
+                  // insert query
                   $query = "INSERT INTO categories SET categoryname=:categoryname, categorydescription=:categorydescription, created=:created"; // info insert to blindParam
             
-    
                   // prepare query for execution
                   $stmt = $con->prepare($query);
 
                   // bind the parameters
                   $stmt->bindParam(':categoryname', $categoryname);
                   $stmt->bindParam(':categorydescription', $categorydescription);
-                  
 
                   // specify when this record was inserted to the database
                   $created = date('Y-m-d H:i:s');
@@ -75,8 +66,6 @@
                     echo "<div class='alert alert-success'>Record was saved.</div>";
                     $categoryname = "";
                     $categorydescription = "";
-                    
-                    
                   } else {
                     echo "<div class='alert alert-danger'>Unable to save record.</div>";
                   }
@@ -91,7 +80,7 @@
               }
             }
             ?>
-            
+
             <!-- html form here where the product information will be entered -->
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
               <table class='table table-hover table-responsive table-bordered'>

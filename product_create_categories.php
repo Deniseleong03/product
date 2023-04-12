@@ -27,7 +27,6 @@
 
 
             <?php
-
             if ($_POST) {
               // include database connection
               include 'config/database.php';
@@ -48,18 +47,15 @@
                 if (!isset($categoryname_error) && !isset($catedescription_error)) {
 
                   // insert query
-                  $query = "INSERT INTO categories SET categoryname=:categoryname, catedescription=:catedescription "; // info insert to blindParam
-            
+                  // Update your SQL query
+                  $query = "INSERT INTO categories (categoryname, catedescription) VALUES (:categoryname, :catedescription)";
+
                   // prepare query for execution
                   $stmt = $con->prepare($query);
 
                   // bind the parameters
                   $stmt->bindParam(':categoryname', $categoryname);
                   $stmt->bindParam(':catedescription', $catedescription);
-
-                  // specify when this record was inserted to the database
-                  $created = date('Y-m-d H:i:s');
-                  
 
                   // Execute the query
                   if ($stmt->execute()) {
@@ -79,6 +75,7 @@
                 die('ERROR: ' . $exception->getMessage());
               }
             }
+
             ?>
 
             <!-- html form here where the product information will be entered -->

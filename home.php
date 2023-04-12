@@ -1,3 +1,14 @@
+<?php
+// Start the session
+session_start();
+
+// Check if user is not logged in
+if (!isset($_SESSION['username'])) {
+  // Redirect to login page or show an error message
+  header('Location: loginform/signin.php?action=1'); 
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +16,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bootstrap Navbar Dropdown Login and Signup Form with Social Buttons</title>
+  <title>Home</title>
   <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -16,5 +27,9 @@
 <body>
   <?php include 'nav.php'; ?>
 <h1>Welcome<h1>
+  <?php
+  // destroy the session 
+  session_destroy();
+?>
   </body>
 </html>

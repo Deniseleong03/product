@@ -20,12 +20,20 @@
 	<!-- PHP signin will be here -->
     <?php
 	session_start();
+	// Initialize error message variable
+	$error_message = '';
+	
+	if(isset($_GET['action'])){
+		if($_GET['action'] == 1){
+			$error_message .= "<div class='alert alert-danger'>PLS LOG IN</div>";
+		}
+	}
 
 	// Check if the form has been submitted
 	if (isset($_POST['submit'])) {
 		// include database connection
 		include '../config/database.php';
-
+		
 		try {
 
 
@@ -33,8 +41,7 @@
 			$username = htmlspecialchars(strip_tags($_POST['username']));
 			$pass = htmlspecialchars(strip_tags($_POST['pass']));
 
-			// Initialize error message variable
-			$error_message = '';
+			
 
 			// Check if both fields are filled
 			if (empty($username)) {
@@ -70,6 +77,7 @@
 							$_SESSION['username'] = $username;
 							header("Location:../home.php");
 							exit();
+							
 						} else {
 							//acc inactive
 							$error_message .= "<div class='alert alert-danger'>Your account is inactive</div>";

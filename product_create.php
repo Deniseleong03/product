@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,6 +15,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <body>
+  
   <?php include 'nav.php'; ?>
   <!-- container -->
   <div class="container">
@@ -27,10 +29,10 @@
 
 
     <?php
-
+    include 'config/database.php';
     if ($_POST) {
       // include database connection
-      include 'config/database.php';
+      
       try {
 
 
@@ -40,8 +42,11 @@
         $promotion_price = htmlspecialchars(strip_tags($_POST['promotion_price']));
         $manufacture_date = htmlspecialchars(strip_tags($_POST['manufacture_date']));
         $expired_date = htmlspecialchars(strip_tags($_POST['expired_date']));
-        $categories = (isset($_POST['categories'])) ? htmlspecialchars(strip_tags($_POST['categories'])) : "";
-
+        if (isset($_POST['categoryid']))
+          $categoryid = $_POST['categoryid'];
+    
+       
+        
 
         // check if any field is empty
         if (empty($name)) {
@@ -56,7 +61,7 @@
         if (empty($manufacture_date)) {
           $manufacture_date_error = "Please enter manufacture date";
         }
-        if (empty($categories)) {
+        if (empty($categoryid)) {
           $categories_error = "Please choose a category";
         }
 
@@ -77,10 +82,11 @@
         // check if there are any errors
         if (!isset($name_error) && !isset($description_error) && !isset($price_error) && !isset($promotion_price_error) && !isset($manufacture_date_error) && !isset($expired_date_error) && !isset($categories_error)) {
 
+          
 
 
           // insert query
-          $query = "INSERT INTO products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, categories=:categories, created=:created"; // info insert to blindParam
+          $query = "INSERT INTO products SET name=:name, description=:description, price=:price, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date, cateid=:cateid, created=:created"; // info insert to blindParam
     
 
           // prepare query for execution
@@ -93,7 +99,7 @@
           $stmt->bindParam(':promotion_price', $promotion_price);
           $stmt->bindParam(':manufacture_date', $manufacture_date);
           $stmt->bindParam(':expired_date', $expired_date);
-          $stmt->bindParam(':categories', $categories);
+          $stmt->bindParam(':cateid', $categoryid);
 
           // specify when this record was inserted to the database
           $created = date('Y-m-d H:i:s');
@@ -108,7 +114,7 @@
             $promotion_price = "";
             $manufacture_date = "";
             $expired_date = "";
-            $categories = "";
+            $categoryid = "";
 
           } else {
             echo "<div class='alert alert-danger'>Unable to save record.</div>";
@@ -193,25 +199,26 @@
             <?php } ?>
           </td>
         </tr>
-        <tr>
-          <td>Category</td>
-          <td><select name="categories" class="form-control">
-              <option value="">Select category</option>
-              <option value="category1">Clothing and Accessories</option>
-              <option value="category2">Sports and Fitness</option>
-              <option value="category3">Food and Beverage</option>
-              <option value="category4">Electronics</option>
-
-            </select>
-            <?php if (isset($categories_error)) { ?>
-              <span class="text-danger">
-                <?php echo $categories_error; ?>
-              </span>
-            <?php } ?>
-          </td>
-        </tr>
-
-
+              <tr>
+                <td>Category</td>
+            <td>
+      <select name='categoryid' class="form-control">
+                            <option value=''>--Select Category--</option>
+                            <?php /*foreach ($categoryname as $category) { */
+                            // retrieve category name from database
+                            $query = "SELECT cateid, categoryname FROM categories";
+                            $stmt = $con->prepare($query);
+                            
+                            $stmt->execute();
+                              while($categoryrow = $stmt->fetch(PDO::FETCH_ASSOC)){
+                              extract($categoryrow);
+                              ?>
+                                      <option value="<?php echo $cateid; ?>"><?php echo $categoryname; ?></option>
+                                    <?php } ?>
+                              </select>
+                              <?php if (isset($categories_error)) { ?><span class="text-danger"><?php echo $categories_error; ?></span><?php } ?>
+                          </td>
+                    </tr>
 
         <tr>
           <td></td>

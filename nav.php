@@ -354,7 +354,7 @@
             </ul>
             <!-- Right side of navbar -->
             <ul class="nav navbar-nav navbar-right">
-                <li id="logout"><a href="http://localhost/project/loginform/signin.php">Log out</a></li>
+                <li id="logout"><a href="http://localhost/project/logout.php">Log out</a></li>
             </ul>
         </div>
     </nav>

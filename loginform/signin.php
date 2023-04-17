@@ -25,7 +25,7 @@
 	
 	if(isset($_GET['action'])){
 		if($_GET['action'] == 1){
-			$error_message .= "<div class='alert alert-danger'>PLS LOG IN</div>";
+			$error_message .= "<div class='alert alert-danger'>Please login your account</div>";
 		}
 	}
 

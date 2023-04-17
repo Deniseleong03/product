@@ -330,7 +330,6 @@
                     <ul class="dropdown-menu">
                         <li><a href="http://localhost/project/product_create.php">Create Products</a></li>
                         <li><a href="http://localhost/project/product_read.php">List All Product</a></li>
-                        <li><a href="http://localhost/project/product_read_one.php#">Read One Product's Details</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -340,7 +339,6 @@
                     <ul class="dropdown-menu">
                         <li><a href="http://localhost/project/createcustomers.php">Create Customers</a></li>
                         <li><a href="http://localhost/project/customer_read.php">List All Customer</a></li>
-                        <li><a href="#">Read One Customer's Details</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

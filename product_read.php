@@ -63,7 +63,7 @@ if (!isset($_SESSION['username'])) {
             echo "<th>Name</th>";
             echo "<th>Description</th>";
             echo "<th>Price</th>";
-            echo "<th>Action</th>";
+            echo "<th>Promotion Price</th>";
             echo "</tr>";
 
             // table body will be here
@@ -78,7 +78,9 @@ if (!isset($_SESSION['username'])) {
                 echo "<td>{$name}</td>";
                 echo "<td>{$description}</td>";
                 echo "<td>{$price}</td>";
+                echo "<td>" . ($promotion_price ? number_format($promotion_price, 2) : '-') . "</td>"; // display dash if no promotion price
                 echo "<td>";
+
                 // read one record
                 echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
 

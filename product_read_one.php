@@ -95,6 +95,19 @@ if (!isset($_SESSION['username'])) {
                 </td>
             </tr>
             <tr>
+                <td>Promotional Price</td>
+                <td>
+                    <?php
+                    if (!empty($promotion_price)) {
+                        echo htmlspecialchars($promotion_price, ENT_QUOTES);
+                    } else {
+                        echo "-";
+                    }
+                    ?>
+                </td>
+                </td>
+            </tr>
+            <tr>
                 <td></td>
                 <td>
                     <a href='product_read.php' class='btn btn-danger'>Back to read products</a>

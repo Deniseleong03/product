@@ -48,7 +48,7 @@ if (!isset($_SESSION['username'])) {
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, description, price FROM products WHERE id = ? LIMIT 0,1";
+            $query = "SELECT id, name, description, price, manufacture_date, expired_date FROM products WHERE id = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -64,6 +64,8 @@ if (!isset($_SESSION['username'])) {
             $name = $row['name'];
             $description = $row['description'];
             $price = $row['price'];
+            $manufacture_date = $row['manufacture_date'];
+            $expired_date = $row['expired_date'];
         }
 
         // show error
@@ -105,6 +107,18 @@ if (!isset($_SESSION['username'])) {
                     }
                     ?>
                 </td>
+                </td>
+            </tr>
+            <tr>
+                <td>Manufacture Date</td>
+                <td>
+                    <?php echo htmlspecialchars($manufacture_date, ENT_QUOTES); ?>
+                </td>
+            </tr>
+            <tr>
+                <td>Expired Date</td>
+                <td>
+                    <?php echo htmlspecialchars($expired_date, ENT_QUOTES); ?>
                 </td>
             </tr>
             <tr>

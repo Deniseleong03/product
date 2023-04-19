@@ -26,7 +26,7 @@ if (!isset($_SESSION['username'])) {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <body>
-
+    <?php include 'nav.php'; ?>
     <!-- container -->
     <div class="container">
         
@@ -74,7 +74,7 @@ if (!isset($_SESSION['username'])) {
         echo "<th>Product ID</th>";
         echo "<th>Product Name</th>";
         echo "<th>Description</th>";
-        echo "<th>Price</th>";
+        echo "<th class='text-right'>Price</th>"; 
         echo "</tr>";
         while ($row = $products_stmt->fetch(PDO::FETCH_ASSOC)) {
             // extract row

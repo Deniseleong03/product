@@ -33,6 +33,8 @@ if (!isset($_SESSION['username'])) {
                         <br>
                         <h1>My Customers</h1>
                     </div>
+                    
+  
 
                     <!-- PHP code to read records will be here -->
                     <?php
@@ -62,7 +64,6 @@ if (!isset($_SESSION['username'])) {
                         echo "<tr>";
                         echo "<th>ID</th>";
                         echo "<th>Username</th>";
-                        echo "<th>Pass</th>";
                         echo "<th>FirstName</th>";
                         echo "<th>LastName</th>";
                         echo "<th>Gender</th>";
@@ -79,7 +80,6 @@ if (!isset($_SESSION['username'])) {
                             echo "<tr>";
                             echo "<td>{$id}</td>";
                             echo "<td>{$username}</td>";
-                            echo "<td>{$pass}</td>";
                             echo "<td>{$firstname}</td>";
                             echo "<td>{$lastname}</td>";
                             echo "<td>{$gender}</td>";
@@ -109,6 +109,8 @@ if (!isset($_SESSION['username'])) {
                         echo "<div class='alert alert-danger'>No records found.</div>";
                     }
                     ?>
+
+                    
 
 
                 </div> <!-- end .container -->

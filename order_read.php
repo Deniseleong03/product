@@ -31,7 +31,7 @@ if (!isset($_SESSION['username'])) {
     <div class="container">
         <div class="page-header">
             <br>
-            <h1>Category list</h1>
+            <h1>Order list</h1>
         </div>
 
         <!-- PHP code to read records will be here -->
@@ -42,7 +42,7 @@ if (!isset($_SESSION['username'])) {
         // delete message prompt will be here
         
         // select all data
-        $query = "SELECT * FROM categories";
+        $query = "SELECT * FROM orders";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -50,7 +50,7 @@ if (!isset($_SESSION['username'])) {
         $num = $stmt->rowCount();
 
         // link to create record form
-        echo "<a href='product_create_categories.php' class='btn btn-primary m-b-1em'>Create New Categories</a>";
+        echo "<a href='order_create.php' class='btn btn-primary m-b-1em'>Create Orders</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
@@ -60,9 +60,9 @@ if (!isset($_SESSION['username'])) {
         
             //creating our table heading
             echo "<tr>";
-            echo "<th>Category ID</th>";
-            echo "<th>Category Name</th>";
-            echo "<th>Category Description</th>";
+            echo "<th>Order ID</th>";
+            echo "<th>Customer ID</th>";
+            echo "<th>Date</th>";
             echo "</tr>";
 
             // table body will be here
@@ -73,19 +73,19 @@ if (!isset($_SESSION['username'])) {
                 extract($row);
                 // creating new table row per record
                 echo "<tr>";
-                echo "<td>{$cateid}</td>";
-                echo "<td>{$categoryname}</td>";
-                echo "<td>{$catedescription}</td>";
+                echo "<td>{$order_id}</td>";
+                echo "<td>{$customer_id}</td>";
+                echo "<td>{$date}</td>";
                 echo "<td>";
-                
+
                 //link button to pages
-               echo "<a href='category_read_one.php?cateid={$cateid}' class='btn btn-info m-r-1em'>Read</a>";
-              
-                // we will use this links on next part of this post
-                echo "<a href='update.php?id={$cateid}' class='btn btn-primary m-r-1em'>Edit</a>";
+                echo "<a href='order_detail.php?order_id={$order_id}' class='btn btn-info m-r-1em'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$cateid});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='update.php?id={$order_id}' class='btn btn-primary m-r-1em'>Edit</a>";
+
+                // we will use this links on next part of this post
+                echo "<a href='#' onclick='delete_user({$order_id});'  class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }

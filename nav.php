@@ -325,15 +325,6 @@
                 <li><a href="http://localhost/project/contactus.php">Contact Us</a></li>
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle"
-                        href="http://localhost/project/product_create.php#">
-                        Product <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="http://localhost/project/product_create.php">Create Products</a></li>
-                        <li><a href="http://localhost/project/product_read.php">List All Product</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle"
                         href="http://localhost/project/createcustomers.php">
                         Customers <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -343,10 +334,28 @@
                 </li>
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle"
+                        href="http://localhost/project/product_create.php#">
+                        Products <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://localhost/project/product_create.php">Create Products</a></li>
+                        <li><a href="http://localhost/project/product_read.php">List All Product</a></li>
+                    </ul>
+                </li>
+                
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle"
                         href="#">Categories <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="http://localhost/project/product_create_categories.php#">Create Categories</a></li>
                         <li><a href="http://localhost/project/category_list.php">Category List</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle"
+                        href="#">Orders<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://localhost/project/order_create.php#">Create Orders</a></li>
+                        <li><a href="http://localhost/project/order_read.php">Order List</a></li>
                     </ul>
                 </li>
             </ul>

@@ -69,6 +69,7 @@ if (!isset($_SESSION['username'])) {
                         $lastname = $row['lastname'];
                         $gender = $row['gender'];
                         $accstatus = $row['accstatus'];
+                        $dob = $row['dob'];
                    
                 }
 
@@ -89,12 +90,6 @@ if (!isset($_SESSION['username'])) {
                         </td>
                     </tr>
                     <tr>
-                        <td>Pass</td>
-                        <td>
-                            <?php echo htmlspecialchars($pass, ENT_QUOTES); ?>
-                        </td>
-                    </tr>
-                    <tr>
                         <td>First Name</td>
                         <td>
                             <?php echo htmlspecialchars($firstname, ENT_QUOTES); ?>
@@ -104,6 +99,18 @@ if (!isset($_SESSION['username'])) {
                         <td>Last Name</td>
                         <td>
                             <?php echo htmlspecialchars($lastname, ENT_QUOTES); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Gender</td>
+                        <td>
+                            <?php echo htmlspecialchars($gender, ENT_QUOTES); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Birth Date</td>
+                        <td>
+                            <?php echo htmlspecialchars($dob, ENT_QUOTES); ?>
                         </td>
                     </tr>
                     <tr>

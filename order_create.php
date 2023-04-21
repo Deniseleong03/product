@@ -42,8 +42,15 @@ if (!isset($_SESSION['username'])) {
 
         if ($_POST) {
             try {
+                // Initialize variables
+                $customer_id = $price = $product1 = $product2 = $product3 = $quantity1 = $quantity2 = $quantity3 = "";
+
+                // Get values from form and assign to variables
                 if (isset($_POST['customer_id'])) {
                     $customer_id = $_POST['customer_id'];
+                }
+                if (isset($_POST['price'])) {
+                    $price = $_POST['price'];
                 }
                 if (isset($_POST['product1'])) {
                     $product1 = $_POST['product1'];
@@ -78,43 +85,66 @@ if (!isset($_SESSION['username'])) {
                 // check if there are any errors
                 if (!isset($customer_id_error) && !isset($product1_error) && !isset($quantity1_error)) {
 
-                    // insert query
-                    $query = "INSERT INTO orderdetails (product_name, quantity, date) VALUES (:product_name, :quantity, :date)";
-
-
-
+                    // insert query for order table
+                    $order_query = "INSERT INTO orders (customer_id, date) VALUES (:customer_id, :date)";
 
                     // prepare query for execution
-                    $stmt = $con->prepare($query);
+                    $order_stmt = $con->prepare($order_query);
 
                     // specify when this record was inserted to the database
                     $date = date('Y-m-d H:i:s');
 
+                    // bind the parameters for order table
+                    $order_stmt->bindParam(':customer_id', $customer_id);
+                    $order_stmt->bindParam(':date', $date);
+                    $order_stmt->execute();
+
+                    // get the order_id
+                    $order_id = $con->lastInsertId();
+
+                    // insert query for orderdetails table
+                    $orderdetails_query = "INSERT INTO orderdetails (order_id, product_id, price, product_name, quantity, date)
+                    SELECT :order_id, products.id, :price, products.name, :quantity, :date
+                    FROM products 
+                    WHERE products.name = :product_name";
+
+                    // prepare query for execution
+                    $orderdetails_stmt = $con->prepare($orderdetails_query);
+
                     // bind the parameters for product 1
                     if (!empty($product1)) {
-                    $stmt->bindParam(':product_name', $product1);
-                    $stmt->bindParam(':quantity', $quantity1);
-                    $stmt->bindParam(':date', $date);
-                    $stmt->execute();
+                        $product_name = $product1; // define $product_name variable
+                        $orderdetails_stmt->bindParam(':order_id', $order_id);
+                        $orderdetails_stmt->bindParam(':product_name', $product_name);
+                        $orderdetails_stmt->bindParam(':price', $price);
+                        $orderdetails_stmt->bindParam(':quantity', $quantity1);
+                        $orderdetails_stmt->bindParam(':date', $date);
+                        $orderdetails_stmt->execute();
                     }
+
                     // bind the parameters for product 2
                     if (!empty($product2)) {
-                        $stmt->bindParam(':product_name', $product2);
-                        $stmt->bindParam(':quantity', $quantity2);
-                        $stmt->bindParam(':date', $date);
-                        $stmt->execute();
+                        $product_name = $product2; // define $product_name variable
+                        $orderdetails_stmt->bindParam(':order_id', $order_id);
+                        $orderdetails_stmt->bindParam(':product_name', $product_name);
+                        $orderdetails_stmt->bindParam(':price', $price);
+                        $orderdetails_stmt->bindParam(':quantity', $quantity2);
+                        $orderdetails_stmt->bindParam(':date', $date);
+                        $orderdetails_stmt->execute();
                     }
 
                     // bind the parameters for product 3
                     if (!empty($product3)) {
-                        $stmt->bindParam(':product_name', $product3);
-                        $stmt->bindParam(':quantity', $quantity3);
-                        $stmt->bindParam(':date', $date);
-                        $stmt->execute();
+                        $product_name = $product3; // define $product_name variable
+                        $orderdetails_stmt->bindParam(':order_id', $order_id);
+                        $orderdetails_stmt->bindParam(':product_name', $product_name);
+                        $orderdetails_stmt->bindParam(':price', $price);
+                        $orderdetails_stmt->bindParam(':quantity', $quantity3);
+                        $orderdetails_stmt->bindParam(':date', $date);
+                        $orderdetails_stmt->execute();
                     }
-
                     // check if any record was inserted successfully
-                    if ($stmt->rowCount() > 0) {
+                    if ($orderdetails_stmt->rowCount() > 0) {
                         echo "<div class='alert alert-success'>Record was saved.</div>";
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";

@@ -85,17 +85,8 @@ if (!isset($_SESSION['username'])) {
             echo "<td>{$id}</td>";
             echo "<td>{$name}</td>";
             echo "<td>{$description}</td>";
-            echo "<td>{$price}</td>";
-            echo "<td>";
+            echo "<td class='text-right'>{$price}</td>";
            
-
-            // we will use this links on next part of this post
-            echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
-
-            // we will use this links on next part of this post
-            echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
-            echo "</td>";
-            echo "</tr>";
         }
 
         // end table

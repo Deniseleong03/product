@@ -38,7 +38,7 @@ if (!isset($_SESSION['username'])) {
           <a href='product_create.php' class='btn btn-primary m-b-1em' style='float: left;'>Create New Product</a>
 
           <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <div style="display: flex;">
+            <div class ="float-end">
               <input type="text" name="search" placeholder="Enter keyword"
                 style="border: 1px solid #ccc; padding: 8px; border-radius: 4px;">
               <button type="submit" 
@@ -93,13 +93,16 @@ if (!isset($_SESSION['username'])) {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
           // extract row
           extract($row);
+           if($promotion_price == 0.00){
+            $promotion_price ="-";
+          }
           // creating new table row per record
           echo "<tr>";
           echo "<td>{$id}</td>";
           echo "<td>{$name}</td>";
           echo "<td>{$description}</td>";
           echo "<td class='text-right'>{$price}</td>"; // align to right
-          echo "<td class='text-right'>" . ($promotion_price ? number_format($promotion_price, 2) : '-') . "</td>"; // align to right, display dash if no promotion price
+          echo "<td class='text-right'>".$promotion_price. "</td>"; // align to right, display dash if no promotion price
           echo "<td>";
 
           // read one record

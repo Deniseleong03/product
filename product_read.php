@@ -38,18 +38,37 @@ if (!isset($_SESSION['username'])) {
           <a href='product_create.php' class='btn btn-primary m-b-1em' style='float: left;'>Create New Product</a>
 
           <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <div class ="float-end">
-              <input type="text" name="search" placeholder="Enter keyword"
-                style="border: 1px solid #ccc; padding: 8px; border-radius: 4px;">
-              <button type="submit" 
-                style="background-color: #007bff; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-left: 8px;">Search</button>
-            </div>
-          </form>
-        
+  <div style="text-align: right;">
+    <input type="text" name="search" placeholder="Enter keyword"
+      style="border: 1px solid #ccc; padding: 8px; border-radius: 4px;">
+    <button type="submit" 
+      style="background-color: #007bff; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-left: 8px;">Search</button>
+  </div>
+</form>
 
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
+th, td {
+  text-align: left;
+  padding: 8px;
+}
 
+th {
+  background-color: #ddd;
+}
 
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.text-right {
+  text-align: right;
+}
+</style>
 
         <!-- PHP code to read records will be here -->
       <?php
@@ -84,8 +103,9 @@ if (!isset($_SESSION['username'])) {
         echo "<th>ID</th>";
         echo "<th>Name</th>";
         echo "<th>Description</th>";
-        echo "<th class='text-right'>Price</th>"; // align to right
-        echo "<th class='text-right'>Promotion Price</th>"; // align to right
+        echo "<th class='text-center'>Price</th>"; // align to right
+        echo "<th class='text-center'>Promotion Price</th>";
+        echo "<th class='text-center'>Action</th>"; // align to right
         echo "</tr>";
 
         // table body will be here
@@ -100,12 +120,13 @@ if (!isset($_SESSION['username'])) {
           echo "<tr>";
           echo "<td>{$id}</td>";
           echo "<td>{$name}</td>";
-          echo "<td>{$description}</td>";
+          echo "<td style='max-width: 200px;'>{$description}</td>";
           echo "<td class='text-right'>{$price}</td>"; // align to right
           echo "<td class='text-right'>".$promotion_price. "</td>"; // align to right, display dash if no promotion price
-          echo "<td>";
+         
 
           // read one record
+          echo "<td class='text-center'>";
           echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
 
           // we will use this links on next part of this post

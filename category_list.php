@@ -25,6 +25,30 @@ if (!isset($_SESSION['username'])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.text-right {
+  text-align: right;
+}
+</style>
+
 <body>
     <?php include 'nav.php'; ?>
     <!-- container -->
@@ -63,6 +87,7 @@ if (!isset($_SESSION['username'])) {
             echo "<th>Category ID</th>";
             echo "<th>Category Name</th>";
             echo "<th>Category Description</th>";
+            echo "<th class='text-center'>Action</th>";
             echo "</tr>";
 
             // table body will be here
@@ -75,9 +100,8 @@ if (!isset($_SESSION['username'])) {
                 echo "<tr>";
                 echo "<td>{$cateid}</td>";
                 echo "<td>{$categoryname}</td>";
-                echo "<td>{$catedescription}</td>";
-                echo "<td>";
-                
+                echo "<td style='max-width: 200px;'>{$catedescription}</td>"; // set max-width to 200px
+                echo "<td class='text-center'>";
                 //link button to pages
                echo "<a href='category_read_one.php?cateid={$cateid}' class='btn btn-info m-r-1em'>Read</a>";
               

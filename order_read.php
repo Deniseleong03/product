@@ -25,6 +25,31 @@ if (!isset($_SESSION['username'])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+
+
+    <style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.text-right {
+  text-align: right;
+}
+</style>
 <body>
     <?php include 'nav.php'; ?>
     <!-- container -->
@@ -63,6 +88,7 @@ if (!isset($_SESSION['username'])) {
             echo "<th>Order ID</th>";
             echo "<th>Customer ID</th>";
             echo "<th>Date</th>";
+            echo "<th class='text-center'>Action</th>";
             echo "</tr>";
 
             // table body will be here
@@ -76,16 +102,13 @@ if (!isset($_SESSION['username'])) {
                 echo "<td>{$order_id}</td>";
                 echo "<td>{$customer_id}</td>";
                 echo "<td>{$date}</td>";
-                echo "<td>";
-
+                
+                
                 //link button to pages
+                echo "<td class='text-center'>";
                 echo "<a href='order_detail.php?order_id={$order_id}' class='btn btn-info m-r-1em'>Read</a>";
-
-                // we will use this links on next part of this post
                 echo "<a href='update.php?id={$order_id}' class='btn btn-primary m-r-1em'>Edit</a>";
-
-                // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$order_id});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_user({$order_id});' class='btn btn-danger'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }

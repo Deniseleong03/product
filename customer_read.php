@@ -24,6 +24,30 @@ if (!isset($_SESSION['username'])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     
+
+    <style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.text-right {
+  text-align: right;
+}
+</style>
 <body>
 <?php include 'nav.php'; ?>
           
@@ -68,6 +92,7 @@ if (!isset($_SESSION['username'])) {
                         echo "<th>LastName</th>";
                         echo "<th>Gender</th>";
                         echo "<th>Accstatus</th>";
+                        echo "<th class='text-center'>Action</th>";
                         echo "</tr>";
 
                         // table body will be here
@@ -84,9 +109,12 @@ if (!isset($_SESSION['username'])) {
                             echo "<td>{$lastname}</td>";
                             echo "<td>{$gender}</td>";
                             echo "<td>{$accstatus}</td>";
-                            echo "<td>";
+                            
+
+                            echo "<td class='text-center'>";
                             // read one record
                             echo "<a href='customer_read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
+                            
 
                             // we will use this links on next part of this post
                             echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";

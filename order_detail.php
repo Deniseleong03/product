@@ -24,8 +24,31 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.text-right {
+  text-align: right;
+}
+</style>
 <body>
+    <?php include 'nav.php'; ?>
     <?php
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
@@ -52,7 +75,7 @@ if (!isset($_SESSION['username'])) {
     echo "</div>";
 
     // query to select all products that belong to the category name
-    $orderdetails_query = "SELECT orderdetails.orderdetail_id, orderdetails.order_id, orderdetails.product_id, orderdetails.product_name, orderdetails.quantity, orderdetails.price, orderdetails.date FROM orderdetails JOIN products ON orderdetails.product_id = products.id WHERE orderdetails.order_id = ?";
+    $orderdetails_query = "SELECT orderdetails.orderdetail_id, orderdetails.order_id, orderdetails.product_id, products.name as product_name, orderdetails.quantity, products.price FROM orderdetails JOIN products ON orderdetails.product_id = products.id WHERE orderdetails.order_id = ?";
     $orderdetails_stmt = $con->prepare($orderdetails_query);
     $orderdetails_stmt->bindParam(1, $order_id);
     $orderdetails_stmt->execute();
@@ -71,10 +94,11 @@ if (!isset($_SESSION['username'])) {
         echo "<th>Product ID</th>";
         echo "<th>Product Name</th>";
         echo "<th>Quantity</th>";
-        echo "<th>Price</th>";
-        echo "<th>Total</th>";
-        echo "<th>Date</th>";
+        echo "<th class='text-right'>Price</th>";
+        echo "<th class='text-right'>Total</th>";
         echo "</tr>";
+
+        $total_price = 0;
 
         while ($row = $orderdetails_stmt->fetch(PDO::FETCH_ASSOC)) {
             // extract row
@@ -83,7 +107,8 @@ if (!isset($_SESSION['username'])) {
 
             // calculate total
             $total = $quantity * $price;
-            
+            $total_price += $total;
+
             // creating new table row per record
             echo "<tr>";
             echo "<td>{$orderdetail_id}</td>";
@@ -91,11 +116,16 @@ if (!isset($_SESSION['username'])) {
             echo "<td>{$product_id}</td>";
             echo "<td>{$product_name}</td>";
             echo "<td>{$quantity}</td>";
-            echo "<td>{$price}</td>";
-            echo "<td>{$total}</td>";
-            echo "<td>{$date}</td>";
-            echo "<td>";
+            echo "<td class='text-right'>{$price}</td>";
+            echo "<td class='text-right'>{$total}</td>";
+            echo "</tr>";
         }
+
+        // display total price
+        echo "<tr>";
+        echo "<td colspan='6' class='text-right'>Total Price:</td>";
+        echo "<td class='text-right'>{$total_price}</td>";
+        echo "</tr>";
 
         // end table
         echo "</table>";
@@ -105,6 +135,7 @@ if (!isset($_SESSION['username'])) {
         echo "<div class='alert alert-danger'>No records found.</div>";
     }
     ?>
+
 
 
 

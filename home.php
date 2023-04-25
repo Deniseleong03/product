@@ -80,16 +80,12 @@ if (!isset($_SESSION['username'])) {
 </head>
 <body>
   <?php include 'nav.php'; ?>
- <section class="hero-section">
-        <h1>Welcome</h1>
-        <p>Let's Get Started!</p>
-        <a href="#" class="cta-button">Get Started</a>
-    </section>
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 My Website. All rights reserved.</p>
-        </div>
-    </footer>
- 
+
+ <body>
+    <?php include 'top_selling.php'; ?>
+
+    <?php include 'lowest_selling.php'; ?>
+
+    <?php include 'latest_product.php'; ?>
   </body>
 </html>

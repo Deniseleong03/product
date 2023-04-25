@@ -80,22 +80,10 @@
             border-radius: 4px !important;
             box-shadow: none
         }
-
-        .search-box .input-group-addon {
-            min-width: 35px;
-            border: none;
-            background: transparent;
-            position: absolute;
-            right: 0;
-            z-index: 9;
-            padding: 7px;
-            height: 100%;
+        .navbar-nav .active > a {
+            font-weight: bold;
         }
 
-        .search-box i {
-            color: #a0a5b1;
-            font-size: 19px;
-        }
 
         .navbar .nav .btn-primary,
         .navbar .nav .btn-primary:active {

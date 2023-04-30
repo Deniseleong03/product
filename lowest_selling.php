@@ -12,6 +12,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+.my-card {
+    border: 2px solid #33cabb;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-color: #33cabb !important;
+    
+}
+.container2{
+    float:right;
+
+}
+</style>
+</head>
 
 <body>
     <?php
@@ -33,22 +47,32 @@
     $num = $lowest_selling_stmt->rowCount();
 
     if ($num > 0) {
-        // display products in a grid format
+        // display products in a card format
         echo "<div class='container'>";
-        echo "<h2>Lowest Selling Products</h2>";
+        echo "<h2 style='color:#33cabb;'>Lowest Selling Products</h2>";
         echo "<div class='row'>";
+        echo "<div class='col-md-12'>";
+        echo "<div class='card my-card' style='width: 50%'>";
+        echo "<div class='card-body'>";
+        echo "<table class='table'>";
+        echo "<thead><tr><th>Name</th><th>Total Sales</th></tr></thead>";
+        echo "<tbody>";
 
         while ($row = $lowest_selling_stmt->fetch(PDO::FETCH_ASSOC)) {
             // extract row
             extract($row);
 
-            // display product
-            echo "<div class='col-md-4'>";
-            echo "<h4><a href='product.php?id={$id}'>{$name}</a></h4>";
-            echo "<p>Total Sales: {$total_sales}</p>";
-            echo "</div>";
+            // display product in table row format
+            echo "<tr>";
+            echo "<td><a href='product.php?id={$id}'>{$name}</a></td>";
+            echo "<td>{$total_sales}</td>";
+            echo "</tr>";
         }
-
+        echo "</tbody>";
+        echo "</table>";
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
         echo "</div>";
         echo "</div>";
     }
@@ -62,3 +86,4 @@
 
 
 </body>
+ </html>

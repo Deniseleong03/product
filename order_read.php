@@ -58,24 +58,39 @@ tr:nth-child(even) {
             <br>
             <h1>Order list</h1>
         </div>
+        <a href='order_create.php' class='btn btn-primary m-b-1em' style='float: left;'>Create Orders</a>
+                     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+          <div style="text-align: right;">
+            <input type="text" name="search" placeholder="Enter keyword"
+              style="border: 1px solid #ccc; padding: 8px; border-radius: 4px;">
+            <button type="submit"
+              style="background-color: #007bff; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-left: 8px;">Search</button>
+          </div>
+        </form>
+        <br>
 
         <!-- PHP code to read records will be here -->
         <?php
         // include database connection
         include 'config/database.php';
 
+        $query = "SELECT * FROM orders";
+        if ($_POST) {
+          $search = htmlspecialchars(strip_tags($_POST['search']));
+          $query = "SELECT * FROM `orders` WHERE order_id LIKE '%" . $search . "%' OR customer_id = '" . $search . "'";
+          echo $search;
+        }
+
         // delete message prompt will be here
         
         // select all data
-        $query = "SELECT * FROM orders";
+        
         $stmt = $con->prepare($query);
         $stmt->execute();
 
         // this is how to get number of rows returned
         $num = $stmt->rowCount();
 
-        // link to create record form
-        echo "<a href='order_create.php' class='btn btn-primary m-b-1em'>Create Orders</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
@@ -101,15 +116,19 @@ tr:nth-child(even) {
                 echo "<tr>";
                 echo "<td>{$order_id}</td>";
                 echo "<td>{$customer_id}</td>";
-                echo "<td>{$date}</td>";
+                echo "<td>{$created}</td>";
+                
                 
                 
                 //link button to pages
                 echo "<td class='text-center'>";
-                echo "<a href='order_detail.php?order_id={$order_id}' class='btn btn-info m-r-1em'>Read</a>";
-                echo "<a href='update.php?id={$order_id}' class='btn btn-primary m-r-1em'>Edit</a>";
-                echo "<a href='#' onclick='delete_user({$order_id});' class='btn btn-danger'>Delete</a>";
-                echo "</td>";
+                echo "<a href='order_detail.php?order_id={$order_id}' class='btn btn-info m-r-1em'>Read</a>&nbsp;";
+
+            echo "<a href='update.php?id={$order_id}' class='btn btn-primary m-r-1em'>Edit</a>&nbsp;";
+
+            echo "<a href='#' onclick='delete_user({$order_id});' class='btn btn-danger'>Delete</a>&nbsp;";
+
+            echo "</td>";
                 echo "</tr>";
             }
 

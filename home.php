@@ -81,11 +81,19 @@ if (!isset($_SESSION['username'])) {
 <body>
   <?php include 'nav.php'; ?>
 
- <body>
-    <?php include 'top_selling.php'; ?>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <?php include 'top_selling.php'; ?>
+      </div>
+      <div class="col-md-6">
+        <?php include 'lowest_selling.php'; ?>
+      </div>
+    </div>
+  
 
-    <?php include 'lowest_selling.php'; ?>
+  <?php include 'latest_product.php'; ?>
+</div>
+</body>
 
-    <?php include 'latest_product.php'; ?>
-  </body>
 </html>

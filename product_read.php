@@ -45,6 +45,7 @@ if (!isset($_SESSION['username'])) {
       style="background-color: #007bff; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-left: 8px;">Search</button>
   </div>
 </form>
+<br>
 
 <style>
 table {
@@ -123,19 +124,20 @@ tr:nth-child(even) {
           echo "<td style='max-width: 200px;'>{$description}</td>";
           echo "<td class='text-right'>{$price}</td>"; // align to right
           echo "<td class='text-right'>".$promotion_price. "</td>"; // align to right, display dash if no promotion price
-         
+      
 
           // read one record
           echo "<td class='text-center'>";
-          echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
+          echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>&nbsp;";
 
           // we will use this links on next part of this post
-          echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
+          echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>&nbsp;";
 
           // we will use this links on next part of this post
-          echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
+          echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>&nbsp;";
           echo "</td>";
           echo "</tr>";
+
         }
 
         // end table

@@ -89,7 +89,7 @@ tr:nth-child(even) {
     // check if more than 0 record found
     $num = $products_stmt->rowCount();
 
-    echo "<a href='category_list.php' class='btn btn-danger'>Back to read categories</a>";
+    echo "<a href='category_list.php' class='btn btn-danger' style='margin-bottom: 10px;'>Back to read categories</a>";
 
     if ($num > 0) {
         // display products in a table format

@@ -83,7 +83,8 @@ tr:nth-child(even) {
     // check if more than 0 record found
     $num = $orderdetails_stmt->rowCount();
 
-    echo "<a href='order_read.php' class='btn btn-danger'>Back to read orders</a>";
+    echo "<a href='order_read.php' class='btn btn-danger' style='margin-bottom: 10px;'>Back to read orders</a>
+";
 
     if ($num > 0) {
         // display products in a table format

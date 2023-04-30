@@ -58,23 +58,38 @@ tr:nth-child(even) {
             <h1>Category list</h1>
         </div>
 
+        <a href='product_create_categories.php' class='btn btn-primary m-b-1em' style='float: left;'>Create New Category</a>
+                     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+          <div style="text-align: right;">
+            <input type="text" name="search" placeholder="Enter keyword"
+              style="border: 1px solid #ccc; padding: 8px; border-radius: 4px;">
+            <button type="submit"
+              style="background-color: #007bff; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-left: 8px;">Search</button>
+          </div>
+        </form>
+        <br>
+
         <!-- PHP code to read records will be here -->
         <?php
         // include database connection
         include 'config/database.php';
 
+        $query = "SELECT * FROM categories";
+        if ($_POST) {
+          $search = htmlspecialchars(strip_tags($_POST['search']));
+          $query = "SELECT * FROM `categories` WHERE categoryname LIKE '%" . $search . "%' OR cateid = '" . $search . "'";
+          echo $search;
+        }
+
         // delete message prompt will be here
         
         // select all data
-        $query = "SELECT * FROM categories";
+        
         $stmt = $con->prepare($query);
         $stmt->execute();
 
         // this is how to get number of rows returned
         $num = $stmt->rowCount();
-
-        // link to create record form
-        echo "<a href='product_create_categories.php' class='btn btn-primary m-b-1em'>Create New Categories</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
@@ -103,13 +118,13 @@ tr:nth-child(even) {
                 echo "<td style='max-width: 200px;'>{$catedescription}</td>"; // set max-width to 200px
                 echo "<td class='text-center'>";
                 //link button to pages
-               echo "<a href='category_read_one.php?cateid={$cateid}' class='btn btn-info m-r-1em'>Read</a>";
+               echo "<a href='category_read_one.php?cateid={$cateid}' class='btn btn-info m-r-1em'>Read</a>&nbsp;";
               
                 // we will use this links on next part of this post
-                echo "<a href='update.php?id={$cateid}' class='btn btn-primary m-r-1em'>Edit</a>";
+                echo "<a href='update.php?id={$cateid}' class='btn btn-primary m-r-1em'>Edit</a>&nbsp;";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$cateid});'  class='btn btn-danger'>Delete</a>";
+                echo "<a href='#' onclick='delete_user({$cateid});'  class='btn btn-danger'>Delete</a>&nbsp;";
                 echo "</td>";
                 echo "</tr>";
             }

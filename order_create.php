@@ -41,108 +41,85 @@ if (!isset($_SESSION['username'])) {
         include 'config/database.php';
 
         if ($_POST) {
-            try {
+            
+             try {
                 // Initialize variables
-                $customer_id = $price = $product1 = $product2 = $product3 = $quantity1 = $quantity2 = $quantity3 = "";
+                $customer_id = $products = $quantities = array();
 
                 // Get values from form and assign to variables
                 if (isset($_POST['customer_id'])) {
                     $customer_id = $_POST['customer_id'];
                 }
-                if (isset($_POST['price'])) {
-                    $price = $_POST['price'];
+                if (isset($_POST['products'])) {
+                    $products = $_POST['products'];
                 }
-                if (isset($_POST['product1'])) {
-                    $product1 = $_POST['product1'];
-                }
-                if (isset($_POST['product2'])) {
-                    $product2 = $_POST['product2'];
-                }
-                if (isset($_POST['product3'])) {
-                    $product3 = $_POST['product3'];
-                }
-                if (isset($_POST['quantity1'])) {
-                    $quantity1 = $_POST['quantity1'];
-                }
-                if (isset($_POST['quantity2'])) {
-                    $quantity2 = $_POST['quantity2'];
-                }
-                if (isset($_POST['quantity3'])) {
-                    $quantity3 = $_POST['quantity3'];
+                if (isset($_POST['quantities'])) {
+                    $quantities = $_POST['quantities'];
                 }
 
                 // check if any field is empty
                 if (empty($customer_id)) {
                     $customer_id_error = "Please pick a name";
                 }
-                if (empty($product1)) {
-                    $product1_error = "Please pick a product";
-                }
-                if (empty($quantity1)) {
-                    $quantity1_error = "Please enter a quantity";
+                if (empty($products) || count($products) < 1) {
+                    $products_error = "Please select at least one product";
                 }
 
+
+
+
+            
                 // check if there are any errors
-                if (!isset($customer_id_error) && !isset($product1_error) && !isset($quantity1_error)) {
+                if (!isset($customer_id_error) && !isset($products_error)) {
+                    
 
                     // insert query for order table
-                    $order_query = "INSERT INTO orders (customer_id, date) VALUES (:customer_id, :date)";
+                    $order_query = "INSERT INTO orders (customer_id, created) VALUES (:customer_id, :created)";
 
                     // prepare query for execution
                     $order_stmt = $con->prepare($order_query);
 
                     // specify when this record was inserted to the database
-                    $date = date('Y-m-d H:i:s');
+                    $created = date('Y-m-d H:i:s');
 
                     // bind the parameters for order table
                     $order_stmt->bindParam(':customer_id', $customer_id);
-                    $order_stmt->bindParam(':date', $date);
+                    $order_stmt->bindParam(':created', $created);
                     $order_stmt->execute();
 
                     // get the order_id
                     $order_id = $con->lastInsertId();
 
                     // insert query for orderdetails table
-                    $orderdetails_query = "INSERT INTO orderdetails (order_id, product_id, price, product_name, quantity, date)
-                    SELECT :order_id, products.id, :price, products.name, :quantity, :date
-                    FROM products 
-                    WHERE products.name = :product_name";
+                    $orderdetails_query = "INSERT INTO orderdetails (order_id, product_id, quantity, created) VALUES (:order_id, :product_id, :quantity, :created)";
+
+
 
                     // prepare query for execution
                     $orderdetails_stmt = $con->prepare($orderdetails_query);
 
-                    // bind the parameters for product 1
-                    if (!empty($product1)) {
-                        $product_name = $product1; // define $product_name variable
+                    // iterate over products and quantities and insert each record into the orderdetails table
+                    foreach ($products as $key => $product) {
+                        $quantity = $quantities[$key];
+
+                        // select product_id from products table
+                        $product_query = "SELECT id FROM products WHERE id = :product_id LIMIT 1";
+                        $product_stmt = $con->prepare($product_query);
+                        $product_stmt->bindParam(':product_id', $product);
+                        $product_stmt->execute();
+                        $product_id = $product_stmt->fetchColumn();
+
+                        // bind the parameters for the current product in orderdetails table
                         $orderdetails_stmt->bindParam(':order_id', $order_id);
-                        $orderdetails_stmt->bindParam(':product_name', $product_name);
-                        $orderdetails_stmt->bindParam(':price', $price);
-                        $orderdetails_stmt->bindParam(':quantity', $quantity1);
-                        $orderdetails_stmt->bindParam(':date', $date);
+                        $orderdetails_stmt->bindParam(':product_id', $product_id);
+                        $orderdetails_stmt->bindParam(':quantity', $quantity);
+                        $orderdetails_stmt->bindParam(':created', $created);
                         $orderdetails_stmt->execute();
+                        // clear the statement for the next iteration
+                        $product_stmt = null;
                     }
 
-                    // bind the parameters for product 2
-                    if (!empty($product2)) {
-                        $product_name = $product2; // define $product_name variable
-                        $orderdetails_stmt->bindParam(':order_id', $order_id);
-                        $orderdetails_stmt->bindParam(':product_name', $product_name);
-                        $orderdetails_stmt->bindParam(':price', $price);
-                        $orderdetails_stmt->bindParam(':quantity', $quantity2);
-                        $orderdetails_stmt->bindParam(':date', $date);
-                        $orderdetails_stmt->execute();
-                    }
 
-                    // bind the parameters for product 3
-                    if (!empty($product3)) {
-                        $product_name = $product3; // define $product_name variable
-                        $orderdetails_stmt->bindParam(':order_id', $order_id);
-                        $orderdetails_stmt->bindParam(':product_name', $product_name);
-                        $orderdetails_stmt->bindParam(':price', $price);
-                        $orderdetails_stmt->bindParam(':quantity', $quantity3);
-                        $orderdetails_stmt->bindParam(':date', $date);
-                        $orderdetails_stmt->execute();
-                    }
                     // check if any record was inserted successfully
                     if ($orderdetails_stmt->rowCount() > 0) {
                         echo "<div class='alert alert-success'>Record was saved.</div>";
@@ -151,119 +128,70 @@ if (!isset($_SESSION['username'])) {
                     }
                 }
             } catch (PDOException $exception) {
-                echo "<div class='alert alert-danger'>Error: " . $exception->getMessage() . "</div>";
+                echo "<div class='alert alert-danger'>{$exception->getMessage()}</div>";
             }
         }
         ?>
+
+
         
        
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-    <table class='table table-hover table-responsive table-bordered'>
-        <tr>
-            <td>Customer Name</td>
-            <td>
-                <select name='customer_id' class="form-control">
-                    <option value=''>--Select Name--</option>
-                    <?php 
-                    // retrieve category name from database
-                    $query = "SELECT id, firstname, lastname FROM customers";
-                    $stmt = $con->prepare($query);
+            <table class='table table-hover table-responsive table-bordered'>
+                <tr>
+                    <td>Customer Name</td>
+                    <td>
+                        <select name='customer_id' class="form-control">
+                            <option value=''>--Select Name--</option>
+                            <?php
+                            // retrieve category name from database
+                            $query = "SELECT id, firstname, lastname FROM customers";
+                            $stmt = $con->prepare($query);
 
-                    $stmt->execute();
-                    while ($customersrow = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        extract($customersrow);
-                        ?>
-                        <option value="<?php echo $id; ?>"><?php echo $firstname; ?><?php echo $lastname; ?></option>
-                    <?php } ?>
-                </select>
-                <?php if (isset($customer_id_error)) { ?><span class="text-danger">
-                        <?php echo $customer_id_error; ?>
-                    </span>
-                <?php } ?>
-            </td>
-        </tr>
-        <tr>
-            <td>Product 1</td>
-            <td>
-                    <!-- Product 1 dropdown -->
-                <select name='product1' class="form-control">
-                        <option value=''>--Select Product--</option>
-                        <?php
+                            $stmt->execute();
+                            while ($customersrow = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                extract($customersrow);
+                                ?>
+                                <option value="<?php echo $id; ?>"><?php echo $firstname; ?><?php echo $lastname; ?></option>
+                            <?php } ?>
+                        </select>
+                        <?php if (isset($customer_id_error)) { ?><span class="text-danger">
+                                <?php echo $customer_id_error; ?>
+                            </span>
+                        <?php } ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Products</td>
+                        <td>
+                            <?php
                         // retrieve product names from database
                         $query = "SELECT id, name FROM products";
                         $stmt = $con->prepare($query);
                         $stmt->execute();
-                        while ($productsrow = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            extract($productsrow);
+                        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                        for ($i = 1; $i <= 3; $i++) { // change 5 to the maximum number of products allowed
                             ?>
-                            <option value="<?php echo $name; ?>"><?php echo $name; ?></option>
-                        <?php } ?>
-                    </select>
-                    <input type="number" name="quantity1" class="form-control" value="1" min="1">
-                    
-                    <?php if (isset($product_id_error)) { ?><span class="text-danger">
-                            <?php echo $product_id_error; ?>
-                        </span>
-                    <?php } ?>
-                    </td>
-                    </tr>
-                    
-                    <tr>
-                        <td>Product 2</td>
-                        <td>
-                            <!-- Product 1 dropdown -->
-                            <select name='product2' class="form-control">
+                            <select name='products[]' class="form-control">
                                 <option value=''>--Select Product--</option>
-                                <?php
-                                // retrieve product names from database
-                                $query = "SELECT id, name FROM products";
-                                $stmt = $con->prepare($query);
-                                $stmt->execute();
-                                while ($productsrow = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    extract($productsrow);
-                                    ?>
-                                    <option value="<?php echo $name; ?>"><?php echo $name; ?></option>
+                                <?php foreach ($products as $product) { ?>
+                                    <option value="<?php echo $product['id']; ?>"><?php echo $product['name']; ?></option>
                                 <?php } ?>
                             </select>
-                            <input type="number" name="quantity2" class="form-control" value="1" min="1">
-                    
-                    
-                            <?php if (isset($product_id_error)) { ?><span class="text-danger">
-                                    <?php echo $product_id_error; ?>
+                            <input type="number" name="quantities[]" class="form-control" value="1" min="1">
+                            <?php if (isset($products_error) && $i == 1) { ?>
+                                    <span class="text-danger">
+                                        <?php echo $products_error; ?>
                                 </span>
                             <?php } ?>
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td>Product 3</td>
-                        <td>
-                            <!-- Product 1 dropdown -->
-                            <select name='product3' class="form-control">
-                                <option value=''>--Select Product--</option>
-                                <?php
-                                // retrieve product names from database
-                                $query = "SELECT id, name FROM products";
-                                $stmt = $con->prepare($query);
-                                $stmt->execute();
-                                while ($productsrow = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    extract($productsrow);
-                                    ?>
-                                    <option value="<?php echo $name; ?>"><?php echo $name; ?></option>
-                                <?php } ?>
-                            </select>
-                            <input type="number" name="quantity3" class="form-control" value="1" min="1">
-
-                        <?php if (isset($product_id_error)) { ?><span class="text-danger">
-                                <?php echo $product_id_error; ?>
-                            </span>
+                            <br>
                         <?php } ?>
                     </td>
                 </tr>
 
                 <tr>
-                    <td></td>
                     <td>
                         <input type='submit' value='Save' class='btn btn-primary' />
                         <a href='home.php' class='btn btn-danger'>Back to read products</a>

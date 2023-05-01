@@ -107,8 +107,8 @@ tr:nth-child(even) {
             // creating new table row per record
             echo "<tr>";
             echo "<td>{$id}</td>";
-            echo "<td>{$name}</td>";
-            echo "<td>{$description}</td>";
+            echo "<td style='max-width: 100px;'>{$name}</td>";
+            echo "<td style='max-width: 300px;'>{$description}</td>";
             echo "<td class='text-right'>{$price}</td>";
            
         }

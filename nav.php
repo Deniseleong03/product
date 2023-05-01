@@ -286,6 +286,28 @@
                 display: block;
             }
         }
+       #logout {
+  padding: 0; /* remove padding */
+}
+
+#logout a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #33cabb;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  height: 100%;
+}
+
+        
+
+
     </style>
     <script>
         // Prevent dropdown menu from closing when click inside the form

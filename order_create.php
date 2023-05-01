@@ -41,7 +41,7 @@ if (!isset($_SESSION['username'])) {
         include 'config/database.php';
 
         if ($_POST) {
-            
+
              try {
                 // Initialize variables
                 $customer_id = $products = $quantities = array();
@@ -65,10 +65,6 @@ if (!isset($_SESSION['username'])) {
                     $products_error = "Please select at least one product";
                 }
 
-
-
-
-            
                 // check if there are any errors
                 if (!isset($customer_id_error) && !isset($products_error)) {
                     
@@ -181,7 +177,7 @@ if (!isset($_SESSION['username'])) {
                                 <?php } ?>
                             </select>
                             <input type="number" name="quantities[]" class="form-control" value="1" min="1">
-                            <?php if (isset($products_error) && $i == 1) { ?>
+                            <?php if (isset($products_error) && $i < 1) { ?>
                                     <span class="text-danger">
                                         <?php echo $products_error; ?>
                                 </span>

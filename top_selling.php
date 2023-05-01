@@ -60,7 +60,7 @@
 
             // display product in table row format
             echo "<tr>";
-            echo "<td><a href='product.php?id={$id}'>{$name}</a></td>";
+            echo "<td><a href='product_read.php?id={$id}'>{$name}</a></td>";
             echo "<td>{$total_sales}</td>";
             echo "</tr>";
         }

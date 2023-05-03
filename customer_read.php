@@ -131,7 +131,7 @@ tr:nth-child(even) {
                             
 
                             // we will use this links on next part of this post
-                            echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>&nbsp;";
+                            echo "<a href='customer_update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>&nbsp;";
 
                             // we will use this links on next part of this post
                             echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>&nbsp;";

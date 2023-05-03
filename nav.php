@@ -287,7 +287,8 @@
             }
         }
        #logout {
-  padding: 0; /* remove padding */
+  padding: 0; 
+  margin-top: 12px;
 }
 
 #logout a {

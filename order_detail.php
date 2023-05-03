@@ -60,7 +60,7 @@ tr:nth-child(even) {
     $order_id = isset($_GET['order_id']) ? $_GET['order_id'] : die('ERROR: Record ID not found.');
 
     // query to select the category name
-    $orders_query = "SELECT customers.firstname as fname, customers.lastname as lastname FROM orders JOIN customers ON orders.customer_id = customers.id WHERE order_id = ?";
+    $orders_query = "SELECT customers.firstname as fname, customers.lastname as lastname, orders.created as created FROM orders JOIN customers ON orders.customer_id = customers.id WHERE order_id = ?";
     $orders_stmt = $con->prepare($orders_query);
     $orders_stmt->bindParam(1, $order_id);
     $orders_stmt->execute();
@@ -72,6 +72,7 @@ tr:nth-child(even) {
     echo "<div class='page-header'>";
     echo "<h1>" . $order_id . "</h1>";
     echo "<h3>Customer Name:$fname $lastname</h3>";
+    echo "<h3>Date:$created</h3>";
     echo "</div>";
 
     // query to select all products that belong to the category name
@@ -112,20 +113,20 @@ tr:nth-child(even) {
 
             // creating new table row per record
             echo "<tr>";
-            echo "<td>{$orderdetail_id}</td>";
-            echo "<td>{$order_id}</td>";
-            echo "<td>{$product_id}</td>";
+            echo "<td style='width: 200px;'>{$orderdetail_id}</td>";
+            echo "<td style='width: 200px;'>{$order_id}</td>";
+            echo "<td style='width: 200px;'>{$product_id}</td>";
             echo "<td>{$product_name}</td>";
             echo "<td>{$quantity}</td>";
             echo "<td class='text-right'>{$price}</td>";
-            echo "<td class='text-right'>{$total}</td>";
+        echo "<td class='text-right'>" . number_format($total, 2) . "</td>";
             echo "</tr>";
         }
 
         // display total price
         echo "<tr>";
         echo "<td colspan='6' class='text-right'>Total Price:</td>";
-        echo "<td class='text-right'>{$total_price}</td>";
+        echo "<td class='text-right'>" . number_format($total_price, 2) . "</td>";
         echo "</tr>";
 
         // end table

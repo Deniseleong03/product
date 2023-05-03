@@ -22,7 +22,17 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+    .customer {
+  width: 50%;
+}
 
+.products {
+  width: 30%;
+}
+
+</style>
 <body>
 
     <?php include 'nav.php'; ?>
@@ -44,14 +54,14 @@ if (!isset($_SESSION['username'])) {
 
              try {
                 // Initialize variables
-                $customer_id = $products = $quantities = array();
+                $customer_id = $selected_products = $quantities = array();
 
                 // Get values from form and assign to variables
                 if (isset($_POST['customer_id'])) {
                     $customer_id = $_POST['customer_id'];
                 }
-                if (isset($_POST['products'])) {
-                    $products = $_POST['products'];
+                if (isset($_POST['product'])) {
+                    $selected_products = $_POST['product'];
                 }
                 if (isset($_POST['quantities'])) {
                     $quantities = $_POST['quantities'];
@@ -61,9 +71,10 @@ if (!isset($_SESSION['username'])) {
                 if (empty($customer_id)) {
                     $customer_id_error = "Please pick a name";
                 }
-                if (empty($products) || count($products) < 1) {
+                if (empty($selected_products)) {
                     $products_error = "Please select at least one product";
                 }
+               
 
                 // check if there are any errors
                 if (!isset($customer_id_error) && !isset($products_error)) {
@@ -95,7 +106,7 @@ if (!isset($_SESSION['username'])) {
                     $orderdetails_stmt = $con->prepare($orderdetails_query);
 
                     // iterate over products and quantities and insert each record into the orderdetails table
-                    foreach ($products as $key => $product) {
+                    foreach ($selected_products as $key => $product) {
                         $quantity = $quantities[$key];
 
                         // select product_id from products table
@@ -137,7 +148,7 @@ if (!isset($_SESSION['username'])) {
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Customer Name</td>
-                    <td>
+                    <td class="customer">
                         <select name='customer_id' class="form-control">
                             <option value=''>--Select Name--</option>
                             <?php
@@ -158,9 +169,9 @@ if (!isset($_SESSION['username'])) {
                         <?php } ?>
                     </td>
                 </tr>
-                <tr>
+                <tr class = "pRow">
                     <td>Products</td>
-                        <td>
+                        <td class="products">
                             <?php
                         // retrieve product names from database
                         $query = "SELECT id, name FROM products";
@@ -168,37 +179,61 @@ if (!isset($_SESSION['username'])) {
                         $stmt->execute();
                         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                        for ($i = 1; $i <= 3; $i++) { // change 5 to the maximum number of products allowed
+                        for ($i = 1; $i <= 1; $i++) { // change 5 to the maximum number of products allowed
                             ?>
-                            <select name='products[]' class="form-control">
-                                <option value=''>--Select Product--</option>
-                                <?php foreach ($products as $product) { ?>
-                                    <option value="<?php echo $product['id']; ?>"><?php echo $product['name']; ?></option>
-                                <?php } ?>
-                            </select>
-                            <input type="number" name="quantities[]" class="form-control" value="1" min="1">
-                            <?php if (isset($products_error) && $i < 1) { ?>
+                            <select name='product[]' class="form-control" style="display: inline-block; width: 70%;">
+                            <option value=''>--Select Product--</option>
+                            <?php foreach ($products as $prod) { ?>
+                                        <option value="<?php echo $prod['id']; ?>"><?php echo $prod['name']; ?></option>
+                                    <?php } ?>
+                                </select>
+                                <input type="number" name="quantities[]" class="form-control" value="1" min="1" style="display: inline-block; width: 20%; margin-left: 10px;">
+                            
+
+                            <?php if (isset($products_error)) { ?>
                                     <span class="text-danger">
                                         <?php echo $products_error; ?>
                                 </span>
                             <?php } ?>
                             <br>
                         <?php } ?>
+                        
                     </td>
                 </tr>
-
-                <tr>
+                
+                    
+                
+            </table>
+            <tr>
                     <td>
                         <input type='submit' value='Save' class='btn btn-primary' />
                         <a href='home.php' class='btn btn-danger'>Back to read products</a>
+                        <input type="button" value="Add More" class="add_one btn btn-warning" style="float: right;" />
+                        <input type="button" value="Delete" class="delete_one btn btn-warning" style="float: right; margin-right: 10px;" />
+
                     </td>
                 </tr>
-            </table>
         </form>
+        
 
 
     </div><!--the end of container-->
-
+<script>
+    document.addEventListener('click', function (event) {
+        if (event.target.matches('.add_one')) {
+            var element = document.querySelector('.pRow');
+            var clone = element.cloneNode(true);
+            element.after(clone);
+        }
+        if (event.target.matches('.delete_one')) {
+            var total = document.querySelectorAll('.pRow').length;
+            if (total > 1) {
+                var element = document.querySelector('.pRow');
+                element.remove(element);
+            }
+        }
+    }, false);
+</script>
 </body>
 
 </html>

@@ -86,7 +86,16 @@
         if ($_POST) {
             try {
                 // write update query
-                $query = "UPDATE customers SET username=:username";
+                $query = "UPDATE customers SET";
+
+                // check if the entered username is different from the old username
+                $new_username = htmlspecialchars(strip_tags($_POST['username']));
+                if ($new_username === $username) {
+                    $username_error = 'New username cannot be the same as old username.';
+                } else {
+                    $username = $new_username;
+                    $query .= " username=:username";
+                }
 
                 // check if password fields are filled in
                 $old_pass = htmlspecialchars(strip_tags($_POST['old_pass']));
@@ -100,8 +109,6 @@
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 $pass_hash = $row['pass'];
 
-
-
                 if (!empty($old_pass) && !empty($new_pass) && !empty($confirm_new_pass)) {
                     // check if old password is correct
                     if (md5($old_pass) !== $pass_hash) {
@@ -109,7 +116,7 @@
                     }
 
                     // check if new password is different from old password
-                    if ($new_pass === $pass) {
+                    if ($new_pass === $pass_hash) {
                         $new_pass_error = 'New password cannot be the same as old password.';
                     }
                     // check if new password and confirm new password match
@@ -121,12 +128,9 @@
                     $query .= ", pass=:new_pass";
                 }
 
-
                 $query .= " WHERE id = :id";
-                // prepare query for excecution
+                // prepare query for execution
                 $stmt = $con->prepare($query);
-                // posted values
-                $username = htmlspecialchars(strip_tags($_POST['username']));
                 // bind the parameters
                 $stmt->bindParam(':username', $username);
                 $stmt->bindParam(':id', $id);
@@ -145,7 +149,7 @@
             catch (PDOException $exception) {
                 die('ERROR: ' . $exception->getMessage());
             }
-        } 
+        }
         ?>
 
 
@@ -157,6 +161,11 @@
                     <td>Username</td>
                     <td><input type='text' name='username' value="<?php echo htmlspecialchars($username, ENT_QUOTES); ?>"
                             class='form-control' />
+                            <?php if (isset($username_error)) { ?>
+                                <span class="text-danger">
+                                    <?php echo $username_error; ?>
+                                </span>
+                            <?php } ?>
                         </td>
                 </tr>
                 <tr>

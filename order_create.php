@@ -53,15 +53,16 @@ if (!isset($_SESSION['username'])) {
         if ($_POST) {
 
              try {
-                // Initialize variables
-                $customer_id = $selected_products = $quantities = array();
+                
 
                 // Get values from form and assign to variables
                 if (isset($_POST['customer_id'])) {
                     $customer_id = $_POST['customer_id'];
+                   
                 }
                 if (isset($_POST['product'])) {
                     $selected_products = $_POST['product'];
+                   
                 }
                 if (isset($_POST['quantities'])) {
                     $quantities = $_POST['quantities'];
@@ -70,9 +71,11 @@ if (!isset($_SESSION['username'])) {
                 // check if any field is empty
                 if (empty($customer_id)) {
                     $customer_id_error = "Please pick a name";
+                    
                 }
-                if (empty($selected_products)) {
+                if (empty($selected_products[0])){
                     $products_error = "Please select at least one product";
+                    
                 }
                
 
@@ -189,13 +192,13 @@ if (!isset($_SESSION['username'])) {
                                 </select>
                                 <input type="number" name="quantities[]" class="form-control" value="1" min="1" style="display: inline-block; width: 20%; margin-left: 10px;">
                             
-
+                                
                             <?php if (isset($products_error)) { ?>
                                     <span class="text-danger">
                                         <?php echo $products_error; ?>
-                                </span>
+                                    </span>
                             <?php } ?>
-                            <br>
+                        <br>
                         <?php } ?>
                         
                     </td>

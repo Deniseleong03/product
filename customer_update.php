@@ -53,6 +53,130 @@
         include 'config/database.php';
 
         // read current record's data
+        
+        ?>
+        
+        <?php
+        // check if form was submitted
+        $old_pass = '';
+        $new_pass = '';
+        $confirm_pass = '';
+        $error = 0;
+        if ($_POST) {
+            try {
+                // get old record's data
+                $query = "SELECT firstname, lastname, gender, dob, pass FROM customers WHERE id = ?";
+                $stmt = $con->prepare($query);
+                $stmt->bindParam(1, $id);
+                $stmt->execute();
+                $old_data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                // get posted values
+                $new_firstname = htmlspecialchars(strip_tags($_POST['firstname']));
+                $new_lastname = htmlspecialchars(strip_tags($_POST['lastname']));
+                $new_gender = isset($_POST['gender']) ? htmlspecialchars(strip_tags($_POST['gender'])) : '';
+                $new_dob = htmlspecialchars(strip_tags($_POST['dob']));
+                $old_pass = htmlspecialchars(strip_tags($_POST['old_pass']));
+                $new_pass = htmlspecialchars(strip_tags($_POST['new_pass']));
+                $confirm_pass = htmlspecialchars(strip_tags($_POST['confirm_pass']));
+
+                // check if new values are different from old values
+                if ($new_firstname == $old_data['firstname'] && $new_lastname == $old_data['lastname'] && $new_gender == $old_data['gender'] && $new_dob == $old_data['dob']) {
+                    $error_msg = "<div class='alert alert-warning'>No changes made to the record.</div>";
+                   
+                }
+                // check if password fields are filled out
+                if(!empty($old_pass) || !empty($new_pass) || !empty($confirm_pass)){
+                    if (empty($new_pass) || empty($confirm_pass)) {
+                        echo "<div class='alert alert-danger'>Please fill out all password fields.</div>";
+                        $error = 1;
+                    }else{
+                        // check if old password matches the one in the database
+                        if (md5($old_pass) != $old_data['pass']) {
+                            $old_pass_error = "<div class='alert alert-danger'>Old password is incorrect.</div>";
+                            echo "1";
+                        } else if (md5($new_pass) == $old_data['pass']) {
+                            $new_pass_error = "<div class='alert alert-danger'>New password cannot be the same as the old password.</div>";
+                            echo "2";
+                        } else if ($new_pass != $confirm_pass) {
+                            $confirm_pass_error = "<div class='alert alert-danger'>New password and confirm password do not match.</div>";
+                            echo "3";
+                        } 
+                    }
+                    
+                }
+
+                if(empty($old_pass_error) && empty($new_pass_error) && empty($confirm_pass_error) && $error == 0){
+                    // write update query
+                    $query = "UPDATE customers SET ";
+
+                    // add fields to the query if they are provided
+                    if (!empty($new_firstname)) {
+                        $query .= "firstname=:firstname, ";
+                    }
+                    if (!empty($new_lastname)) {
+                        $query .= "lastname=:lastname, ";
+                    }
+                    if (!empty($new_gender)) {
+                        $query .= "gender=:gender, ";
+                    }
+                    if (!empty($new_dob)) {
+                        $query .= "dob=:dob, ";
+                    }
+
+                    if(!empty($new_pass)){
+                        $query .= "pass=:pass, ";
+                    }
+
+                    // remove trailing comma from query string
+                    $query = rtrim($query, ", ");
+
+                    // add WHERE clause and prepare query for execution
+                    $query .= " WHERE id = :id";
+                    $stmt = $con->prepare($query);
+
+                    $stmt->bindParam(':id', $id);
+                    // bind the parameters
+                    if (!empty($new_firstname)) {
+                        $stmt->bindParam(':firstname', $new_firstname);
+                    }
+                    if (!empty($new_lastname)) {
+                        $stmt->bindParam(':lastname', $new_lastname);
+                    }
+                    if (!empty($new_gender)) {
+                        $stmt->bindParam(':gender', $new_gender);
+                    }
+                    if (!empty($new_dob)) {
+                        $stmt->bindParam(':dob', $new_dob);
+                    }
+                    if(!empty($new_pass)){
+                        $new_password_md5 = md5($new_pass);
+                        $stmt->bindParam(':pass', $new_password_md5);
+                    }
+                    
+
+                
+
+
+                    // execute the query and check if it was successful
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was updated.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to update record.</div>";
+                    }
+                }else{
+                    echo "<div class='alert alert-danger'>Unable to update record...</div>";
+                
+                }
+                    
+                    
+                
+               
+            } catch (PDOException $exception) {
+                die('Error: ' . $exception->getMessage());
+            }
+        }
+
         try {
             // prepare select query
             $query = "SELECT firstname, lastname, gender, dob, pass FROM customers WHERE id = ? ";
@@ -78,75 +202,6 @@
         // show error
         catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
-        }
-        ?>
-        
-        <?php
-        // check if form was submitted
-        if ($_POST) {
-            try {
-                // get old record's data
-                $query = "SELECT firstname, lastname, gender, dob, pass FROM customers WHERE id = ?";
-                $stmt = $con->prepare($query);
-                $stmt->bindParam(1, $id);
-                $stmt->execute();
-                $old_data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                // get posted values
-                $new_firstname = htmlspecialchars(strip_tags($_POST['firstname']));
-                $new_lastname = htmlspecialchars(strip_tags($_POST['lastname']));
-                $new_gender = htmlspecialchars(strip_tags($_POST['gender']));
-                $new_dob = htmlspecialchars(strip_tags($_POST['dob']));
-                $old_pass = htmlspecialchars(strip_tags($_POST['old_pass']));
-                $new_pass = htmlspecialchars(strip_tags($_POST['new_pass']));
-                $confirm_pass = htmlspecialchars(strip_tags($_POST['confirm_pass']));
-
-                // check if new values are different from old values
-                if ($new_firstname == $old_data['firstname'] && $new_lastname == $old_data['lastname'] && $new_gender == $old_data['gender'] && $new_dob == $old_data['dob']) {
-                    $error_msg = "<div class='alert alert-warning'>No changes made to the record.</div>";
-                } else {
-                    // check if password fields are filled out
-                    if (empty($old_pass) || empty($new_pass) || empty($confirm_pass)) {
-                        echo "<div class='alert alert-danger'>Please fill out all password fields.</div>";
-                    } else {
-                        // check if old password matches the one in the database
-                        if (md5($old_pass) != $old_data['pass']) {
-                            $old_pass_error = "<div class='alert alert-danger'>Old password is incorrect.</div>";
-                        } else {
-                            // check if new password and confirm password match
-                            if ($new_pass != $confirm_pass) {
-                                $confirm_pass_error = "<div class='alert alert-danger'>New password and confirm password do not match.</div>";
-                            } else {
-                                // write update query
-                                $query = "UPDATE customers
-                        SET firstname=:firstname, lastname=:lastname, gender=:gender, dob=:dob, pass=:pass
-                        WHERE id = :id";
-
-                                // prepare query for execution
-                                $stmt = $con->prepare($query);
-
-                                // convert new password to md5 and bind the parameters
-                                $new_password_md5 = md5($new_pass);
-                                $stmt->bindParam(':firstname', $new_firstname);
-                                $stmt->bindParam(':lastname', $new_lastname);
-                                $stmt->bindParam(':gender', $new_gender);
-                                $stmt->bindParam(':dob', $new_dob);
-                                $stmt->bindParam(':pass', $new_password_md5);
-                                $stmt->bindParam(':id', $id);
-
-                                // execute the query and check if it was successful
-                                if ($stmt->execute()) {
-                                    echo "<div class='alert alert-success'>Record was updated.</div>";
-                                } else {
-                                    echo "<div class='alert alert-danger'>Unable to update record.</div>";
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (PDOException $exception) {
-                die('Error: ' . $exception->getMessage());
-            }
         }
         ?>
 
@@ -190,9 +245,9 @@
                 <tr>
                     <td>Enter New Password</td>
                     <td><input type="password" name='new_pass' value="<?php echo htmlspecialchars($new_pass, ENT_QUOTES); ?>"
-                            class='form-control' /><?php if (isset($confirm_pass_error)) { ?>
+                            class='form-control' /><?php if (isset($new_pass_error)) { ?>
                             <span class="text-danger">
-                                <?php echo $confirm_pass_error; ?>
+                                <?php echo $new_pass_error; ?>
                             </span>
                         <?php } ?>
                     </td>
@@ -210,8 +265,12 @@
                 <tr>
             <td><label>Gender</label></td>
             <td>
-              <input type="radio" name="gender" id="male" value="male"><label for="male">Male</label>
-              <input type="radio" name="gender" id="female" value="female"><label for="female">Female</label>
+              <input type="radio" name="gender" id="male" value="male"  <?php if ($gender == "male") {
+                  echo 'checked';
+              } ?>><label for="male">Male</label>
+              <input type="radio" name="gender" id="female" value="female" <?php if ($gender == "female") {
+                  echo 'checked';
+              } ?>><label for="female" >Female</label>
               
             <br>
             <?php if (isset($error_msg)) { ?>
@@ -221,7 +280,7 @@
           </tr>
                 <tr>
             <td><label for="$dob" class="form-label">Date of Birth</label></td>
-            <td><input type="date" name="dob"><br>
+            <td><input type="date" name="dob" value="<?php echo $dob  ?>"><br>
             <?php if (isset($error_msg)) { ?>
                             <span class="text-danger">
                                 <?php echo $error_msg; ?>
@@ -233,7 +292,7 @@
                     <td></td>
                     <td>
                         <input type='submit' value='Save Changes' class='btn btn-primary' />
-                        <a href='customer_read.php' class='btn btn-danger'>Back to read products</a>
+                        <a href='customer_read.php' class='btn btn-danger'>Back to read customers</a>
                     </td>
                 </tr>
             </table>

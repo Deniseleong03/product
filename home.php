@@ -89,10 +89,15 @@ if (!isset($_SESSION['username'])) {
       <div class="col-md-6">
         <?php include 'lowest_selling.php'; ?>
       </div>
+      <div class="col-md-6">
+  <?php include 'latest_product.php'; ?>
+  </div>
+   <div class="col-md-6">
+  <?php include 'total_cusproorder.php'; ?>
+  </div>
     </div>
   
-
-  <?php include 'latest_product.php'; ?>
+      
 </div>
 </body>
 

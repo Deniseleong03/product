@@ -94,7 +94,7 @@ if (!isset($_SESSION['username'])) {
             <tr>
                 <td>Price</td>
                 <td>
-                    <?php echo htmlspecialchars($price, ENT_QUOTES); ?>
+                    <?php echo "RM " . htmlspecialchars($price, ENT_QUOTES); ?>
                 </td>
             </tr>
             <tr>

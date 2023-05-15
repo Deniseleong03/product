@@ -56,7 +56,7 @@
         // display product in table row format
         echo "<tr>";
         echo "<td>{$name}</td>";
-        echo "<td>{$price}</td>";
+        echo "<td>RM {$price}</td>";
         echo "</tr>";
 
         }

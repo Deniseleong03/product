@@ -112,21 +112,22 @@ tr:nth-child(even) {
             $total_price += $total;
 
             // creating new table row per record
-            echo "<tr>";
-            echo "<td style='width: 200px;'>{$orderdetail_id}</td>";
-            echo "<td style='width: 200px;'>{$order_id}</td>";
-            echo "<td style='width: 200px;'>{$product_id}</td>";
-            echo "<td>{$product_name}</td>";
-            echo "<td>{$quantity}</td>";
-            echo "<td class='text-right'>{$price}</td>";
-        echo "<td class='text-right'>" . number_format($total, 2) . "</td>";
-            echo "</tr>";
-        }
+        echo "<tr>";
+        echo "<td style='width: 200px;'>{$orderdetail_id}</td>";
+        echo "<td style='width: 200px;'>{$order_id}</td>";
+        echo "<td style='width: 200px;'>{$product_id}</td>";
+        echo "<td>{$product_name}</td>";
+        echo "<td>{$quantity}</td>";
+        echo "<td class='text-right'>RM {$price}</td>";
+        echo "<td class='text-right'>RM " . number_format($total, 2) . "</td>";
+        echo "</tr>";
+
+      }
 
         // display total price
         echo "<tr>";
         echo "<td colspan='6' class='text-right'>Total Price:</td>";
-        echo "<td class='text-right'>" . number_format($total_price, 2) . "</td>";
+        echo "<td class='text-right'>RM " . number_format($total_price, 2) . "</td>";
         echo "</tr>";
 
         // end table

@@ -131,7 +131,7 @@ if($action=='deleted'){
           echo "<td>{$id}</td>";
           echo "<td>{$name}</td>";
           echo "<td style='max-width: 200px;'>{$description}</td>";
-          echo "<td class='text-right'>{$price}</td>"; // align to right
+          echo "<td class='text-right'>RM {$price}</td>"; // align to right
           echo "<td class='text-right'>".$promotion_price. "</td>"; // align to right, display dash if no promotion price
       
 

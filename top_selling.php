@@ -20,6 +20,23 @@
     margin-bottom: 20px;
     border-color: #33cabb !important;
 }
+h2 {
+  color: #33cabb;
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.table td {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.alert {
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+}
+
 
 </style>
 

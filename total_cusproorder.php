@@ -23,6 +23,7 @@
     
 }
     .card-text {
+    font-family: 'Varela Round', sans-serif;
     margin: 10px 0;
     padding: 5px;
     font-size: 18px;

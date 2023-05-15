@@ -170,17 +170,17 @@ tr:nth-child(even) {
 
                 <!-- confirm delete record will be here -->
                 <script type='text/javascript'>
-// confirm record deletion
-function delete_user( id ){
-     
-    var answer = confirm('Are you sure?');
-    if (answer){
-        // if user clicked ok,
-        // pass the id to delete.php and execute the delete query
-        window.location = 'customer_delete.php?id=' + id;
-    }
-}
-</script>
+            // confirm record deletion
+            function delete_user( id ){
+                
+                var answer = confirm('Are you sure?');
+                if (answer){
+                    // if user clicked ok,
+                    // pass the id to delete.php and execute the delete query
+                    window.location = 'customer_delete.php?id=' + id;
+                    }
+                }
+                </script>
 
 
             </body>

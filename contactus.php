@@ -104,10 +104,6 @@ if (!isset($_SESSION['username'])) {
     </form>
   </div>
 </section>
-<footer>
-  <div class="container">
-    <p>&copy; 2023 My Website. All rights reserved.</p>
-  </div>
-</footer>
+
 <body>
 </html>

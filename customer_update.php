@@ -94,13 +94,13 @@
                         // check if old password matches the one in the database
                         if (md5($old_pass) != $old_data['pass']) {
                             $old_pass_error = "<div class='alert alert-danger'>Old password is incorrect.</div>";
-                            echo "1";
+                            
                         } else if (md5($new_pass) == $old_data['pass']) {
                             $new_pass_error = "<div class='alert alert-danger'>New password cannot be the same as the old password.</div>";
-                            echo "2";
+                            
                         } else if ($new_pass != $confirm_pass) {
                             $confirm_pass_error = "<div class='alert alert-danger'>New password and confirm password do not match.</div>";
-                            echo "3";
+                            
                         } 
                     }
                     

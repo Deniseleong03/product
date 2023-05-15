@@ -127,8 +127,6 @@ if($action=='deleted'){
                 //link button to pages
                echo "<a href='category_read_one.php?cateid={$cateid}' class='btn btn-info m-r-1em'>Read</a>&nbsp;";
               
-                // we will use this links on next part of this post
-                echo "<a href='update.php?id={$cateid}' class='btn btn-primary m-r-1em'>Edit</a>&nbsp;";
 
                 // we will use this links on next part of this post
                 echo "<a href='#' onclick='delete_user({$cateid});'  class='btn btn-danger'>Delete</a>&nbsp;";
@@ -155,13 +153,13 @@ if($action=='deleted'){
     <!-- confirm delete record will be here -->
     <script type='text/javascript'>
 // confirm record deletion
-function delete_user( id ){
+function delete_user( cateid ){
      
     var answer = confirm('Are you sure?');
     if (answer){
         // if user clicked ok,
         // pass the id to delete.php and execute the delete query
-        window.location = 'delete.php?id=' + id;
+        window.location = 'category_delete.php?cateid=' + cateid;
     }
 }
 </script>

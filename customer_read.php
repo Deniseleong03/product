@@ -75,11 +75,13 @@ tr:nth-child(even) {
                     include 'config/database.php';
 
                     $query = "SELECT * FROM customers";
+
                     if ($_POST) {
                       $search = htmlspecialchars(strip_tags($_POST['search']));
-                      $query = "SELECT * FROM `customers` WHERE username LIKE '%" . $search . "%' OR id = '" . $search . "'";
+                      $query = "SELECT * FROM `customers` WHERE firstname LIKE '%" . $search . "%' OR lastname LIKE '%" . $search . "%' OR username LIKE '%" . $search . "%'";
                       echo $search;
                     }
+
 
                     // modify query to sort by order_id in descending order
                     $query .= " ORDER BY id ASC";

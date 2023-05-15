@@ -74,12 +74,7 @@ tr:nth-child(even) {
         // include database connection
         include 'config/database.php';
 
-        $action = isset($_GET['action']) ? $_GET['action'] : "";
-
-        // if it was redirected from delete.php
-        if ($action == 'deleted') {
-          echo "<div class='alert alert-success'>Record was deleted.</div>";
-        }
+        
 
 
         $query = "SELECT * FROM orders";
@@ -133,9 +128,9 @@ tr:nth-child(even) {
                 echo "<td class='text-center'>";
                 echo "<a href='order_detail.php?order_id={$order_id}' class='btn btn-info m-r-1em'>Read</a>&nbsp;";
 
-            echo "<a href='update.php?id={$order_id}' class='btn btn-primary m-r-1em'>Edit</a>&nbsp;";
+            
 
-            echo "<a href='order_delete.php' onclick='delete_user({$order_id});' class='btn btn-danger'>Delete</a>&nbsp;";
+        
 
             echo "</td>";
                 echo "</tr>";
@@ -157,19 +152,7 @@ tr:nth-child(even) {
 
     </div> <!-- end .container -->
 
-    <!-- confirm delete record will be here -->
-<script type='text/javascript'>
-// confirm record deletion
-function delete_user( order_id ){
-     
-    var answer = confirm('Are you sure?');
-    if (answer){
-        // if user clicked ok,
-        // pass the id to delete.php and execute the delete query
-        window.location = 'order_delete.php?id=' + order_id;
-    }
-}
-</script>
+    
 
 </body>
 

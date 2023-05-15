@@ -55,7 +55,7 @@
 
         // display product in table row format
         echo "<tr>";
-        echo "<td><a href='product.php?id={$id}'>{$name}</a></td>";
+        echo "<td>{$name}</td>";
         echo "<td>{$price}</td>";
         echo "</tr>";
 

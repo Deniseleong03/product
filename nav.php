@@ -332,7 +332,7 @@
         <!-- Collection of nav links, forms, and other content for toggling -->
         <div id="navbarCollapse" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="http://localhost/project/home.php">Home</a></li>
+                <li><a href="http://localhost/project/index.php">Home</a></li>
                 <li><a href="http://localhost/project/contactus.php">Contact Us</a></li>
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle"

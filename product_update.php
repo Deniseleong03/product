@@ -112,54 +112,44 @@
                 $fieldsToUpdate = array();
 
                 if (!empty($name) && $name != $old_data['name']) {
-                    $query .= "name = :name, ";
                     $fieldsToUpdate['name'] = $name;
                 }
                 if (!empty($description) && $description != $old_data['description']) {
-                    $query .= "description = :description, ";
                     $fieldsToUpdate['description'] = $description;
                 }
                 if (!empty($price) && $price != $old_data['price']) {
-                    $query .= "price = :price, ";
                     $fieldsToUpdate['price'] = $price;
                 }
                 if (!empty($promotion_price) && $promotion_price != $old_data['promotion_price']) {
-                    $query .= "promotion_price = :promotion_price, ";
                     $fieldsToUpdate['promotion_price'] = $promotion_price;
                 }
                 if (!empty($manufacture_date) && $manufacture_date != $old_data['manufacture_date']) {
-                    $query .= "manufacture_date = :manufacture_date, ";
                     $fieldsToUpdate['manufacture_date'] = $manufacture_date;
                 }
                 if (!empty($expired_date) && $expired_date != $old_data['expired_date']) {
-                    $query .= "expired_date = :expired_date, ";
                     $fieldsToUpdate['expired_date'] = $expired_date;
                 }
                 if (isset($categoryid) && $categoryid != $old_data['cateid']) {
-                    $query .= "cateid = :cateid, ";
                     $fieldsToUpdate['cateid'] = $categoryid;
                 }
 
                 if (empty($fieldsToUpdate)) {
                     echo "<div class='alert alert-warning'>No changes made to the record.</div>";
                 } else {
-                    // Remove the trailing comma from the query
-                    $query = rtrim($query, ', ');
-
-                    // Append the WHERE clause to the query
-                    $query .= " WHERE id = :id";
+                    // build the update query
+                    $query .= implode(' = ?, ', array_keys($fieldsToUpdate)) . ' = ?';
+                    $query .= " WHERE id = ?";
 
                     // prepare query for execution
                     $stmt = $con->prepare($query);
 
                     // bind the parameters
-                    foreach ($fieldsToUpdate as $field => $value) {
-                        $stmt->bindParam(":$field", $value);
-                    }
-                    $stmt->bindParam(':id', $id);
+                    $values = array_values($fieldsToUpdate);
+                    $values[] = $id;
+                    $stmt->execute($values);
 
-                    // Execute the query
-                    if ($stmt->execute()) {
+                    // check if update was successful
+                    if ($stmt->rowCount() > 0) {
                         echo "<div class='alert alert-success'>Record was updated.</div>";
                     } else {
                         echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
@@ -170,6 +160,7 @@
             }
         }
         ?>
+
 
         <!-- HTML form to update record will be here -->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}"); ?>" method="post">

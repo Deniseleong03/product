@@ -5,7 +5,7 @@ session_start();
 // Check if user is not logged in
 if (!isset($_SESSION['username'])) {
   // Redirect to login page or show an error message
-  header('Location: loginform/signin.php?action=1');
+  header('Location: signin.php?action=1');
 }
 ?>
 <!DOCTYPE html>

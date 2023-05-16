@@ -11,6 +11,6 @@ session_unset();
 session_destroy();
 
 // Redirect to login page
-header('Location: loginform/signin.php');
+header('Location: signin.php');
 exit;
 ?>

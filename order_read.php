@@ -5,7 +5,7 @@ session_start();
 // Check if user is not logged in
 if (!isset($_SESSION['username'])) {
     // Redirect to login page or show an error message
-    header('Location: loginform/signin.php?action=1');
+    header('Location: signin.php?action=1');
 }
 ?>
 
@@ -58,16 +58,7 @@ tr:nth-child(even) {
             <br>
             <h1>Order list</h1>
         </div>
-        <a href='order_create.php' class='btn btn-primary m-b-1em' style='float: left;'>Create Orders</a>
-                     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-          <div style="text-align: right;">
-            <input type="text" name="search" placeholder="Enter keyword"
-              style="border: 1px solid #ccc; padding: 8px; border-radius: 4px;">
-            <button type="submit"
-              style="background-color: #007bff; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-left: 8px;">Search</button>
-          </div>
-        </form>
-        <br>
+        
 
         <!-- PHP code to read records will be here -->
         <?php

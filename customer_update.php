@@ -38,6 +38,7 @@
 </head>
 
 <body>
+    <?php include 'nav.php'; ?>
     <!-- container -->
     <div class="container">
         <div class="page-header">
